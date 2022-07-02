@@ -5,7 +5,7 @@ using UnityEngine;
 public class World : MonoBehaviour {
     public TileData[] tileHeights;
 
-    [SerializeField] private int width, height;
+    public int width, height;
     public Tile[,] tiles;
     // [SerializeField] Tile grassTile, waterTile;
     [SerializeField] GameObject tilePrefab;
@@ -18,7 +18,7 @@ public class World : MonoBehaviour {
     float[,] moistureMap;
     float[,] temperatureMap;
 
-    void Start() {
+    public void GenerateWorld() {
         heightMap = new Noise().GenerateNoiseMap(heightMapData, width, height);
         tiles = new Tile[width, height];
         for (int x = 0; x < width; x++) {
