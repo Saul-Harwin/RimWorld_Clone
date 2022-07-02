@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Noise : MonoBehaviour {
+public class Noise{
     float[,] noiseMap;
 
     public float[,] GenerateNoiseMap(MapData mapData, int width, int height) {

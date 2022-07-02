@@ -223,7 +223,9 @@ MonoBehaviour:
   cameraSpeed: 0.025
   cameraShiftSpeed: 0.1
   minZoom: 1
-  maxZoom: 10
+  maxZoom: 50
+  zoomSpeed: 4
+  zoomMoveSpeedEffect: 0.2
 --- !u!1 &724842885
 GameObject:
   m_ObjectHideFlags: 0
