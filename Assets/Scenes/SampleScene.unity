@@ -310,8 +310,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bf16d32d0debbe4a97eba91b295f303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 10
-  height: 10
+  width: 50
+  height: 50
   grassTile: {fileID: 11400000, guid: 7074ad7da9b8a5b4c863b579bf0e6875, type: 2}
   waterTile: {fileID: 0}
   tilePrefab: {fileID: 6581288508445758124, guid: c8b83b678f7472f43a010a4eb3d390ed,
