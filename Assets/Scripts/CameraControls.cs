@@ -6,6 +6,7 @@ public class CameraControls : MonoBehaviour
 {
     [SerializeField] float cameraSpeed;
     [SerializeField] float cameraShiftSpeed;
+    [SerializeField] float minZoom, maxZoom;
 
     void Update()
     {
@@ -15,5 +16,9 @@ public class CameraControls : MonoBehaviour
         if(Input.GetKey(KeyCode.A)) transform.Translate(new Vector2(-speed, 0));
         if(Input.GetKey(KeyCode.S)) transform.Translate(new Vector2(0, -speed));
         if(Input.GetKey(KeyCode.D)) transform.Translate(new Vector2(speed, 0));
+        Camera cam = GetComponent<Camera>();
+        cam.orthographicSize -= Input.GetAxisRaw("Mouse ScrollWheel");
+        if(cam.orthographicSize < minZoom) cam.orthographicSize = minZoom;
+        if(cam.orthographicSize > maxZoom) cam.orthographicSize = maxZoom;
     }
 }
