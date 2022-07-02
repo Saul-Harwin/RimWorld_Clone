@@ -266,6 +266,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2371b62360ed0c1479f368ad1eecb633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  units: []
+  startingUnitCount: 5
+  spawnRangeFromCentre: 2
+  unitPrefab: {fileID: 6659123477967196567, guid: 6bf81d8fda8a2814f89074fc31dc6483,
+    type: 3}
+  testUnit: {fileID: 11400000, guid: 2218f23a2afa55c4aae4fc54e1ab411f, type: 2}
 --- !u!1 &1508361301
 GameObject:
   m_ObjectHideFlags: 0

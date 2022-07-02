@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    public static GameManager Instance { get; set; }
     public World world;
     public UnitManager unitManager;
     public GameState state;
@@ -27,11 +27,22 @@ public class GameManager : MonoBehaviour
     }
 
     void Start(){
-        UpdateGameState(GameState.Freeplay);
+        UpdateGameState(GameState.GenerateWorld);
     }
 
     public void UpdateGameState(GameState newState){
         state = newState;
+
+        switch(newState) {
+            case GameState.GenerateWorld:
+                world.GenerateWorld();
+                UpdateGameState(GameState.SpawnUnits);
+                break;
+            case GameState.SpawnUnits:
+                unitManager.SpawnUnits();
+                UpdateGameState(GameState.Freeplay);
+                break;
+        }
 
         OnGameStateChanged?.Invoke(newState);
 
@@ -40,6 +51,8 @@ public class GameManager : MonoBehaviour
 }
 
 public enum GameState {
+    GenerateWorld,
+    SpawnUnits,
     Freeplay,
     MoveUnit,
 }

@@ -8,11 +8,11 @@ public class Tile : ScriptableObject
     private Vector2 position;
     public Color color, offsetColor;
     public GameObject go;
-
+    public bool occupied = false;
     public void Initialize(Vector2 pPos, bool isOffset, GameObject pTilePrefab){
         position = pPos;
+        occupied = false;
         go = Instantiate(pTilePrefab, pPos, Quaternion.identity);
-        go.AddComponent<TileGO>();
         if(isOffset) { go.GetComponent<SpriteRenderer>().color = color; }
         else { go.GetComponent<SpriteRenderer>().color = offsetColor; }
     }
