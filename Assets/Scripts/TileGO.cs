@@ -5,6 +5,7 @@ using UnityEngine;
 public class TileGO : MonoBehaviour
 {
     GameObject highlight;
+    public Tile parent;
     void Start(){
         highlight = transform.GetChild(0).gameObject;
     }

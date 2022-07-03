@@ -9,9 +9,12 @@ public class Tile : ScriptableObject
     public Color color, offsetColor;
     public GameObject go;
     public Unit occupyingUnit = null;
-    public void Initialize(Vector2 pPos, bool isOffset, GameObject pTilePrefab){
+    public TileData  tileData;
+    public void Initialize(Vector2 pPos, TileData pTileData, bool isOffset, GameObject pTilePrefab){
         position = pPos;
+        tileData = pTileData;
         go = Instantiate(pTilePrefab, pPos, Quaternion.identity);
+        go.GetComponent<TileGO>().parent = this;
         if(isOffset) { go.GetComponent<SpriteRenderer>().color = color; }
         else { go.GetComponent<SpriteRenderer>().color = offsetColor; }
     }
