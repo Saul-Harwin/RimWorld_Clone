@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 808ee1bc4611e2548aeae31c156e83ed, type: 3}
   m_Name: Grass
   m_EditorClassIdentifier: 
-  color: {r: 0.09794585, g: 0.3207547, b: 0.08321467, a: 1}
+  color: {r: 0.09437864, g: 0.2924528, b: 0.08139017, a: 1}
   offsetColor: {r: 0.11058501, g: 0.3490566, b: 0.09385012, a: 1}
   go: {fileID: 0}
   occupied: 0

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 808ee1bc4611e2548aeae31c156e83ed, type: 3}
   m_Name: Water
   m_EditorClassIdentifier: 
-  color: {r: 0.20198467, g: 0.7136175, b: 0.8396226, a: 1}
+  color: {r: 0.19517621, g: 0.4994451, b: 0.8113208, a: 1}
   offsetColor: {r: 0.20392154, g: 0.51631397, b: 0.8392157, a: 1}
   go: {fileID: 0}
+  occupied: 0
