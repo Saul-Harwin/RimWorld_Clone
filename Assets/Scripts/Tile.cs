@@ -8,12 +8,17 @@ public class Tile : ScriptableObject
     private Vector2 position;
     public Color color, offsetColor;
     public GameObject go;
-    public bool occupied = false;
+    public Unit occupyingUnit = null;
     public void Initialize(Vector2 pPos, bool isOffset, GameObject pTilePrefab){
         position = pPos;
-        occupied = false;
         go = Instantiate(pTilePrefab, pPos, Quaternion.identity);
         if(isOffset) { go.GetComponent<SpriteRenderer>().color = color; }
         else { go.GetComponent<SpriteRenderer>().color = offsetColor; }
     }
+
+    public void SetOccupyingUnit(Unit unit){
+        occupyingUnit = unit;
+        unit.occupypingTile = this;
+    }
+
 }

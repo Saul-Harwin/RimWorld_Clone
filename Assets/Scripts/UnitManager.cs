@@ -15,6 +15,7 @@ public class UnitManager : MonoBehaviour
             GameManager.Instance.world.width / 2,
             GameManager.Instance.world.height / 2
         );
+        //if(GameManager.Instance.world.tiles[centerTile.x,centerTile.y].)
         int minX = centerTile.x - spawnRangeFromCentre;
         int maxX = centerTile.x + spawnRangeFromCentre;
         int minY = centerTile.y - spawnRangeFromCentre;
@@ -34,9 +35,9 @@ public class UnitManager : MonoBehaviour
                     Random.Range(minX, maxX),
                     Random.Range(minY, maxY)
                 );
-                if(!GameManager.Instance.world.tiles[rp.x,rp.y].occupied){
+                if(GameManager.Instance.world.tiles[rp.x,rp.y].occupyingUnit == null){
                     foundSpawn = true;
-                    GameManager.Instance.world.tiles[rp.x,rp.y].occupied = true;
+                    GameManager.Instance.world.tiles[rp.x,rp.y].SetOccupyingUnit(unit);
                     spawnPos = rp;
                 }
                 count++;
