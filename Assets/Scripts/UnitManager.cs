@@ -15,33 +15,11 @@ public class UnitManager : MonoBehaviour
             GameManager.Instance.world.width / 2,
             GameManager.Instance.world.height / 2
         );
-        int _count = 0;
-        Vector2Int spawnAreaCenter = new Vector2Int();
-        bool foundSpawnAreaCenter = false;
-        while(!foundSpawnAreaCenter){
-            if(_count > 100){
-                Debug.Log("LOOP INFINTE");
-                break;
-            }
-
-            if(GameManager.Instance.world.tiles[centerTile.x,centerTile.y].tileData.type == 2){
-                foundSpawnAreaCenter = true;
-                spawnAreaCenter = centerTile;
-            }
-            else {
-                int rx = Random.Range(0 + spawnRangeFromCentre, GameManager.Instance.world.width - spawnRangeFromCentre);
-                int ry = Random.Range(0 + spawnRangeFromCentre, GameManager.Instance.world.height - spawnRangeFromCentre);
-                if(GameManager.Instance.world.tiles[rx,ry].tileData.type == 2){
-                    foundSpawnAreaCenter = true;
-                    spawnAreaCenter = new Vector2Int(rx,ry);
-                }
-            }
-            _count++;
-        }
-        int minX = spawnAreaCenter.x - spawnRangeFromCentre;
-        int maxX = spawnAreaCenter.x + spawnRangeFromCentre;
-        int minY = spawnAreaCenter.y - spawnRangeFromCentre;
-        int maxY = spawnAreaCenter.y + spawnRangeFromCentre;
+        //if(GameManager.Instance.world.tiles[centerTile.x,centerTile.y].)
+        int minX = centerTile.x - spawnRangeFromCentre;
+        int maxX = centerTile.x + spawnRangeFromCentre;
+        int minY = centerTile.y - spawnRangeFromCentre;
+        int maxY = centerTile.y + spawnRangeFromCentre;
         for (int i = 0; i < startingUnitCount; i++)
         {
             Unit unit = testUnit;
@@ -57,8 +35,7 @@ public class UnitManager : MonoBehaviour
                     Random.Range(minX, maxX),
                     Random.Range(minY, maxY)
                 );
-                if(GameManager.Instance.world.tiles[rp.x,rp.y].occupyingUnit == null &&
-                    GameManager.Instance.world.tiles[rp.x,rp.y].tileData.type == 2){
+                if(GameManager.Instance.world.tiles[rp.x,rp.y].occupyingUnit == null){
                     foundSpawn = true;
                     GameManager.Instance.world.tiles[rp.x,rp.y].SetOccupyingUnit(unit);
                     spawnPos = rp;

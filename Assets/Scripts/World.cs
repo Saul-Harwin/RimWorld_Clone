@@ -23,20 +23,20 @@ public class World : MonoBehaviour {
         tiles = new Tile[width, height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                tiles[x,y] = ScriptableObject.Instantiate(PickTile(heightMap[x,y]).tile);
+                tiles[x,y] = ScriptableObject.Instantiate(PickTile(heightMap[x,y]));
                 bool isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
-                tiles[x,y].Initialize(new Vector2(x,y), PickTile(heightMap[x,y]), isOffset, tilePrefab);
+                tiles[x,y].Initialize(new Vector2(x,y), isOffset, tilePrefab);
             }
         }
     }
 
-    TileData PickTile(float height) {
+    Tile PickTile(float height) {
         for (var i = 0; i < tileHeights.Length; i++) {
             if (height <= tileHeights[i].height) {
-                return tileHeights[i];
+                return tileHeights[i].tile;
             }
         }
-        return tileHeights[tileHeights.Length - 1];
+        return tileHeights[tileHeights.Length - 1].tile;
     }
 }
 
@@ -54,5 +54,4 @@ public struct MapData {
 public struct TileData {
     public Tile tile; 
     public float height;
-    public int type;
 }
