@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class World : MonoBehaviour {
     public TileData[] tileHeights;
-
     public int width, height;
     public Tile[,] tiles;
     // [SerializeField] Tile grassTile, waterTile;
@@ -28,6 +27,7 @@ public class World : MonoBehaviour {
                 tiles[x,y].Initialize(new Vector2(x,y), PickTile(heightMap[x,y]), isOffset, tilePrefab);
             }
         }
+        this.GetComponent<ObjectPlacer>().PlaceObject();
     }
 
     TileData PickTile(float height) {
