@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 808ee1bc4611e2548aeae31c156e83ed, type: 3}
   m_Name: Sand
   m_EditorClassIdentifier: 
-  color: {r: 0.79215693, g: 0.7725491, b: 0.64705884, a: 1}
-  offsetColor: {r: 0.79215693, g: 0.7725491, b: 0.64705884, a: 1}
+  color: {r: 0.8584906, g: 0.69331425, b: 0.5547793, a: 1}
+  offsetColor: {r: 0.91764706, g: 0.8327709, b: 0.66816485, a: 1}
   go: {fileID: 0}
+  occupied: 0
