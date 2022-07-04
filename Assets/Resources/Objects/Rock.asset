@@ -9,14 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 808ee1bc4611e2548aeae31c156e83ed, type: 3}
+  m_Script: {fileID: 11500000, guid: f49d6228dcea7e54aafc0d869eb3e667, type: 3}
   m_Name: Rock
   m_EditorClassIdentifier: 
-  color: {r: 0.4509804, g: 0.24313726, b: 0.22352941, a: 1}
-  offsetColor: {r: 0.72156864, g: 0.43529412, b: 0.3137255, a: 1}
-  go: {fileID: 0}
-  occupyingUnit: {fileID: 0}
-  tileData:
-    tile: {fileID: 0}
-    height: 1
-    type: 3
+  gameObject: {fileID: 4191329245757403692, guid: 7b62921fd79c23a49ab7a46176db81cc,
+    type: 3}

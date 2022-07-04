@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class World : MonoBehaviour {
-    public TileData[] tileHeights;
+    public TileData[] tileData;
     public int width, height;
     public Tile[,] tiles;
+    public Object[] objects;
+
     // [SerializeField] Tile grassTile, waterTile;
     [SerializeField] GameObject tilePrefab;
 
@@ -27,16 +29,22 @@ public class World : MonoBehaviour {
                 tiles[x,y].Initialize(new Vector2(x,y), PickTile(heightMap[x,y]), isOffset, tilePrefab);
             }
         }
-        this.GetComponent<ObjectPlacer>().PlaceObject();
+        SpawnObjects();
     }
 
     TileData PickTile(float height) {
-        for (var i = 0; i < tileHeights.Length; i++) {
-            if (height <= tileHeights[i].height) {
-                return tileHeights[i];
+        for (var i = 0; i < tileData.Length; i++) {
+            if (height <= tileData[i].height) {
+                return tileData[i];
             }
         }
-        return tileHeights[tileHeights.Length - 1];
+        return tileData[tileData.Length - 1];
+    }
+
+    void SpawnObjects() {
+        foreach (Object worldObject in objects) {
+            this.GetComponent<ObjectPlacer>().PlaceObject(worldObject);
+        }
     }
 }
 

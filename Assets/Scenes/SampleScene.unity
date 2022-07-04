@@ -321,7 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bf16d32d0debbe4a97eba91b295f303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileHeights:
+  tileData:
   - tile: {fileID: 11400000, guid: 668bc58a3788d6c4c88e9d207d292b5e, type: 2}
     height: 0.4
     type: 0
@@ -333,9 +333,12 @@ MonoBehaviour:
     type: 2
   - tile: {fileID: 11400000, guid: df10542dea5370e4aad8042b7ee8fef5, type: 2}
     height: 1
-    type: 3
+    type: 4
   width: 100
   height: 100
+  objects:
+  - {fileID: 11400000, guid: eceac801f0e88d149b4b83326dde5adf, type: 2}
+  - {fileID: 11400000, guid: 91f4406e2992a6b4ba1e2f16de90ef18, type: 2}
   tilePrefab: {fileID: 6581288508445758124, guid: c8b83b678f7472f43a010a4eb3d390ed,
     type: 3}
   heightMapData:
@@ -371,8 +374,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39b67b76fcff5a144b33ae01ca02e1c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 30.72
-  numSampleBeforeRejection: 3
+  radius: 42.67
+  numSampleBeforeRejection: 10
 --- !u!1 &1949849222
 GameObject:
   m_ObjectHideFlags: 0
