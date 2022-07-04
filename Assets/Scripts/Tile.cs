@@ -9,7 +9,7 @@ public class Tile : ScriptableObject
     public Color color, offsetColor;
     public GameObject go;
     public Unit occupyingUnit = null;
-    public GameObject content = null;
+    public Object occupyingObject = null;
     public TileData  tileData;
 
     public void Initialize(Vector2 pPos, TileData pTileData, bool isOffset, GameObject pTilePrefab){
