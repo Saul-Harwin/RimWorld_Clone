@@ -13,8 +13,9 @@ public class Unit : ScriptableObject
 
     public void Initialize(Vector2Int pPos, GameObject pUnitPrefab){
         position = pPos;
-        go = Instantiate(pUnitPrefab, ((Vector3Int)pPos), Quaternion.identity);
+        go = Instantiate(pUnitPrefab, new Vector3(pPos.x, pPos.y + 0.2f), Quaternion.identity);
         go.GetComponent<SpriteRenderer>().sprite = sprite;
+        go.GetComponent<UnitGO>().parent = this;
     }
 }
 
