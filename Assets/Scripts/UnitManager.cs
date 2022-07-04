@@ -44,7 +44,7 @@ public class UnitManager : MonoBehaviour
         int maxY = spawnAreaCenter.y + spawnRangeFromCentre;
         for (int i = 0; i < startingUnitCount; i++)
         {
-            Unit unit = testUnit;
+            Unit unit = ScriptableObject.Instantiate(testUnit);
             Vector2Int spawnPos = new Vector2Int();
             int count = 0;
             bool foundSpawn = false;
