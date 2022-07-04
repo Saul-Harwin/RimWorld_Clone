@@ -5,6 +5,7 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     public List<Unit> units = new List<Unit>();
+    public List<Unit> selectedUnits = new List<Unit>();
     [SerializeField] int startingUnitCount;
     [SerializeField] int spawnRangeFromCentre;
     [SerializeField] GameObject unitPrefab;
@@ -73,4 +74,17 @@ public class UnitManager : MonoBehaviour
             units.Add(unit);
         }
     }
+
+    public void Update(){
+        // Draw Highlights On Selected Units
+        foreach(Unit u in units){
+            if(selectedUnits.Contains(u)){
+                u.go.GetComponent<UnitGO>().highlight.SetActive(true);
+            }
+            else{
+                u.go.GetComponent<UnitGO>().highlight.SetActive(false);
+            }
+        }
+    }
+
 }
