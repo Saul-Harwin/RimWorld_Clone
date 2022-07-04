@@ -19,6 +19,7 @@ public class ObjectPlacer : MonoBehaviour {
             // tiles[(int)(point.x), (int)(point.y)].go.GetComponent<SpriteRenderer>().color = Color.black;
             if (GameManager.Instance.world.tiles[(int)(point.x), (int)(point.y)].tileData.type == 2) {
                 worldObject.Initialize(new Vector2((int)point.x, (int)point.y), worldObject.gameObject);
+                GameManager.Instance.world.tiles[(int)(point.x), (int)(point.y)].content = worldObject.gameObject;
             }
         }
     }
