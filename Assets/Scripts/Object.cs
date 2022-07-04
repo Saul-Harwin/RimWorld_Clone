@@ -6,9 +6,11 @@ using UnityEngine;
 public class Object : ScriptableObject {
     private Vector2 position;
     public GameObject gameObject;
+    public int objectType;
 
     public void Initialize(Vector2 pos, GameObject objectPrefab){
         position = pos;
-        ScriptableObject.Instantiate(objectPrefab, pos, Quaternion.identity);
+        if(objectType == 0) position.y += 0.6f;
+        ScriptableObject.Instantiate(objectPrefab, position, Quaternion.identity);
     }
 }
