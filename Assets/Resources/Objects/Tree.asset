@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f49d6228dcea7e54aafc0d869eb3e667, type: 3}
   m_Name: Tree
   m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 5827061997526342686, guid: 0beb9bad5d39a9041b90a9a7199242d6,
+    type: 3}
   go: {fileID: 0}
   objectType: 0
   sprites:

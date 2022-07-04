@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f49d6228dcea7e54aafc0d869eb3e667, type: 3}
   m_Name: Rock
   m_EditorClassIdentifier: 
+  objectPrefab: {fileID: 4191329245757403692, guid: 7b62921fd79c23a49ab7a46176db81cc,
+    type: 3}
   go: {fileID: 0}
   objectType: 1
   sprites:
   - {fileID: 21300000, guid: 7164e5d33ea9f4f4dae8ed74b35fb7ac, type: 3}
-  - {fileID: 21300000, guid: 799baa3615aa34e4f9470d710c9aa7c1, type: 3}
+  - {fileID: 21300000, guid: 6bf8947b4f234bf47acb54a2fa40b8be, type: 3}
