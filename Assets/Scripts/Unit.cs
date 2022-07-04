@@ -9,10 +9,12 @@ public class Unit : ScriptableObject
     public Stats stats;
     public GameObject go;
     public Tile occupypingTile;
+    public Sprite sprite;
 
     public void Initialize(Vector2Int pPos, GameObject pUnitPrefab){
         position = pPos;
         go = Instantiate(pUnitPrefab, ((Vector3Int)pPos), Quaternion.identity);
+        go.GetComponent<SpriteRenderer>().sprite = sprite;
     }
 }
 
