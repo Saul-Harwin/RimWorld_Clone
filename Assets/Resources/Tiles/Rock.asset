@@ -12,7 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 808ee1bc4611e2548aeae31c156e83ed, type: 3}
   m_Name: Rock
   m_EditorClassIdentifier: 
-  color: {r: 0.103773594, g: 0.1023051, b: 0.1023051, a: 1}
-  offsetColor: {r: 0.1509434, g: 0.1488074, b: 0.1488074, a: 1}
+  color: {r: 0.4509804, g: 0.24313726, b: 0.22352941, a: 1}
+  offsetColor: {r: 0.72156864, g: 0.43529412, b: 0.3137255, a: 1}
   go: {fileID: 0}
-  occupied: 1
+  occupyingUnit: {fileID: 0}
+  tileData:
+    tile: {fileID: 0}
+    height: 0
+    type: 0

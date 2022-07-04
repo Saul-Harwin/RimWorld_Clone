@@ -16,7 +16,7 @@ public class ObjectPlacer : MonoBehaviour {
         points = PoissonDiscSampling.Place(width, height, radius, numSampleBeforeRejection);
         Tile[,] tiles = this.GetComponent<World>().tiles;
         foreach (Vector2 point in points) {
-            tiles[(int)(point.x), (int)(point.y)].go.GetComponent<SpriteRenderer>().color = Color.black;
+            //tiles[(int)(point.x), (int)(point.y)].go.GetComponent<SpriteRenderer>().color = Color.black;
         }
     }
 }

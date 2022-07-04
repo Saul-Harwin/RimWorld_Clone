@@ -372,8 +372,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 30.72
-  width: 100
-  height: 100
   numSampleBeforeRejection: 3
 --- !u!1 &1949849222
 GameObject:
