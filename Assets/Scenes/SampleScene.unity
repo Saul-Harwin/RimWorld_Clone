@@ -271,6 +271,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   units: []
+  selectedUnits: []
   startingUnitCount: 5
   spawnRangeFromCentre: 3
   unitPrefab: {fileID: 6659123477967196567, guid: 6bf81d8fda8a2814f89074fc31dc6483,
@@ -376,6 +377,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 42.67
   numSampleBeforeRejection: 10
+  tempObjectPrefab: {fileID: 388199014778407389, guid: e47274c13d21de345a99ed36a2f86977,
+    type: 3}
 --- !u!1 &1949849222
 GameObject:
   m_ObjectHideFlags: 0

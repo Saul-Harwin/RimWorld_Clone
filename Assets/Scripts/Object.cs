@@ -5,14 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Object", menuName = "ScriptableObjects/Object", order = 1)]
 public class Object : ScriptableObject {
     private Vector2 position;
-    public GameObject gameObject;
+    public GameObject objectPrefab;
+    public GameObject go;
     public int objectType;
     public Sprite[] sprites;
 
-    public void Initialize(Vector2 pos, GameObject objectPrefab){
+    public void Initialize(Vector2 pos){
         position = pos;
         if(objectType == 0) position.y += 0.6f;
-        gameObject = ScriptableObject.Instantiate(objectPrefab, position, Quaternion.identity);
-        gameObject.GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
+        go = Instantiate(objectPrefab, position, Quaternion.identity);
+        go.GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
     }
 }

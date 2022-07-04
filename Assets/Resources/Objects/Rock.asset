@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f49d6228dcea7e54aafc0d869eb3e667, type: 3}
   m_Name: Rock
   m_EditorClassIdentifier: 
-  gameObject: {fileID: 0}
+  go: {fileID: 0}
   objectType: 1
   sprites:
   - {fileID: 21300000, guid: 7164e5d33ea9f4f4dae8ed74b35fb7ac, type: 3}

@@ -7,18 +7,17 @@ public class ObjectPlacer : MonoBehaviour {
     int width = 100;
     int height = 100;
     public int numSampleBeforeRejection = 30;
-
     List<Vector2> points;
 
     public void PlaceObject(Object worldObject) {
         width = GameManager.Instance.world.width;
         height = GameManager.Instance.world.height;
         points = PoissonDiscSampling.Place(width, height, radius, numSampleBeforeRejection);
-        Tile[,] tiles = this.GetComponent<World>().tiles;
         foreach (Vector2 point in points) {
             if (GameManager.Instance.world.tiles[(int)(point.x), (int)(point.y)].tileData.type == 2 &&
-                GameManager.Instance.world.tiles[(int)(point.x), (int)(point.y)].occupyingObject == null) {
-                worldObject.Initialize(new Vector2((int)point.x, (int)point.y), worldObject.gameObject);
+                GameManager.Instance.world.tiles[(int)(point.x), (int)(point.y)].occupyingObject == null)
+            {
+                worldObject.Initialize(new Vector2((int)point.x, (int)point.y));
                 GameManager.Instance.world.tiles[(int)(point.x), (int)(point.y)].occupyingObject = worldObject;
             }
         }

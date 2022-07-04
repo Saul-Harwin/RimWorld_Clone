@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f49d6228dcea7e54aafc0d869eb3e667, type: 3}
   m_Name: Tree
   m_EditorClassIdentifier: 
-  gameObject: {fileID: 0}
+  go: {fileID: 0}
   objectType: 0
   sprites:
   - {fileID: 21300000, guid: 39f095235e72e5e49b1e6b5308dbe21d, type: 3}
