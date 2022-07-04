@@ -18,5 +18,5 @@ MonoBehaviour:
   occupyingUnit: {fileID: 0}
   tileData:
     tile: {fileID: 0}
-    height: 0
+    height: 0.4
     type: 0
