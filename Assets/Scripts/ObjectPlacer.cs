@@ -9,10 +9,10 @@ public class ObjectPlacer : MonoBehaviour {
     public int numSampleBeforeRejection = 30;
     List<Vector2> points;
 
-    public void PlaceObject(Object worldObject) {
+    public void PlaceObject(Object worldObject, int seed) {
         width = GameManager.Instance.world.width;
         height = GameManager.Instance.world.height;
-        points = PoissonDiscSampling.Place(width, height, radius, numSampleBeforeRejection);
+        points = PoissonDiscSampling.Place(width, height, radius, seed, numSampleBeforeRejection);
         foreach (Vector2 point in points) {
             if (GameManager.Instance.world.tiles[(int)(point.x), (int)(point.y)].tileData.type == 2 &&
                 GameManager.Instance.world.tiles[(int)(point.x), (int)(point.y)].occupyingObject == null)

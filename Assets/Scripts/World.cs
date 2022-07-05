@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class World : MonoBehaviour {
+    public int seed;
     public TileData[] tileData;
     public int width, height;
     public Tile[,] tiles;
@@ -20,7 +21,7 @@ public class World : MonoBehaviour {
     float[,] temperatureMap;
 
     public void GenerateWorld() {
-        heightMap = new Noise().GenerateNoiseMap(heightMapData, width, height);
+        heightMap = new Noise().GenerateNoiseMap(heightMapData);
         tiles = new Tile[width, height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -42,8 +43,10 @@ public class World : MonoBehaviour {
     }
 
     void SpawnObjects() {
+        int _seed = seed;
         foreach (Object worldObject in objects) {
-            this.GetComponent<ObjectPlacer>().PlaceObject(worldObject);
+            _seed = (int)(_seed / 1.8f);
+            this.GetComponent<ObjectPlacer>().PlaceObject(worldObject, _seed);
         }
     }
 }
