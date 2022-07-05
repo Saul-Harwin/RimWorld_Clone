@@ -5,7 +5,10 @@ using UnityEngine;
 public class Noise{
     float[,] noiseMap;
 
-    public float[,] GenerateNoiseMap(MapData mapData, int width, int height) {
+    public float[,] GenerateNoiseMap(MapData mapData) {
+        int width = GameManager.Instance.world.width;
+        int height = GameManager.Instance.world.height;
+        
         noiseMap = new float[width, height];
 
         for (int y = 0; y < height; y++) {

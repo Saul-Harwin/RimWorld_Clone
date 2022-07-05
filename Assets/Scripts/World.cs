@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class World : MonoBehaviour {
+    public int seed;
     public TileData[] tileData;
     public int width, height;
     public Tile[,] tiles;
     public Object[] objects;
+    // public List<List<Vector2>> objectPoints;
 
     // [SerializeField] Tile grassTile, waterTile;
     [SerializeField] GameObject tilePrefab;
@@ -20,7 +22,7 @@ public class World : MonoBehaviour {
     float[,] temperatureMap;
 
     public void GenerateWorld() {
-        heightMap = new Noise().GenerateNoiseMap(heightMapData, width, height);
+        heightMap = new Noise().GenerateNoiseMap(heightMapData);
         tiles = new Tile[width, height];
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
@@ -42,8 +44,24 @@ public class World : MonoBehaviour {
     }
 
     void SpawnObjects() {
+        List<List<Vector2>> objectPoints = new List<List<Vector2>>();
+        bool repeat = true;
+        int _seed = seed;
+        int i = 0;
         foreach (Object worldObject in objects) {
-            this.GetComponent<ObjectPlacer>().PlaceObject(worldObject);
+            _seed = (int)(_seed / 3.8f);
+            objectPoints.Add(this.GetComponent<ObjectPlacer>().GeneratePoints(_seed));
+        }
+
+        while (repeat == true) {
+            repeat = false;
+            for (int objectIndex = 0; objectIndex < objects.Length; objectIndex++) {
+                if (objectPoints[objectIndex].Count != 0) {
+                    objectPoints[objectIndex] = this.GetComponent<ObjectPlacer>().Placer(objectPoints[objectIndex], objects[objectIndex]);
+                    repeat = true;
+                }
+            }
+            i ++;
         }
     }
 }
