@@ -13,15 +13,12 @@ public class PoissonDiscSampling : MonoBehaviour {
         float x = seed;
         while(spawnPoints.Count > 0) {
             int spawnIndex = Mathf.RoundToInt(Mathf.PerlinNoise((float)((x) * 0.01f), (float)((x) * 0.01f)) * (spawnPoints.Count - 1));
-            // int spawnIndex = Random.Range(0, spawnPoints.Count);
             Vector2 spawnCentre = spawnPoints[spawnIndex];
             bool candidateAccepted = false;
 
             for (var i = 0; i < numSampleBeforeRejection; i++) {
-                // float angle = Random.value * Mathf.PI * 2;
                 float angle = Mathf.PerlinNoise((spawnPoints.Count + i + x) * 0.1f, (spawnPoints.Count + i + x) * 0.1f) * Mathf.PI * 2;
                 Vector2 dir = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
-                // Vector2 candidate = spawnCentre + dir * Random.Range(radius, 2*radius);
                 Vector2 candidate = spawnCentre + dir * ((Mathf.PerlinNoise(spawnPoints.Count * i * 0.01f, spawnPoints.Count * i * 0.01f) + 1) * radius);
                 if(IsValid(candidate, width, height, radius, points, grid)) {
                     points.Add(candidate);
@@ -37,7 +34,6 @@ public class PoissonDiscSampling : MonoBehaviour {
                 spawnPoints.RemoveAt(spawnIndex);
             }
         }
-
         return points;
     }
 

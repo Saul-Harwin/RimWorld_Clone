@@ -472,8 +472,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39b67b76fcff5a144b33ae01ca02e1c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 5.07
-  numSampleBeforeRejection: 30
+  radius: 4.39
+  numSampleBeforeRejection: 45
 --- !u!1 &1949849222
 GameObject:
   m_ObjectHideFlags: 0
