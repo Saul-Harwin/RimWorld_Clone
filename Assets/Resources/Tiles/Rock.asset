@@ -16,6 +16,7 @@ MonoBehaviour:
   offsetColor: {r: 0.72156864, g: 0.43529412, b: 0.3137255, a: 1}
   go: {fileID: 0}
   occupyingUnit: {fileID: 0}
+  occupyingObject: {fileID: 0}
   tileData:
     tile: {fileID: 0}
     height: 1

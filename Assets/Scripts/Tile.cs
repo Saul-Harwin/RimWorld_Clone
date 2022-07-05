@@ -19,6 +19,7 @@ public class Tile : ScriptableObject
         go.GetComponent<TileGO>().parent = this;
         if(isOffset) { go.GetComponent<SpriteRenderer>().color = color; }
         else { go.GetComponent<SpriteRenderer>().color = offsetColor; }
+        go.transform.SetParent(GameObject.Find("Tiles").transform);
     }
 
     public void SetOccupyingUnit(Unit unit){

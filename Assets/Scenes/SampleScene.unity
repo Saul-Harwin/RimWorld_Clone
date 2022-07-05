@@ -376,9 +376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   radius: 42.67
-  numSampleBeforeRejection: 10
-  tempObjectPrefab: {fileID: 388199014778407389, guid: e47274c13d21de345a99ed36a2f86977,
-    type: 3}
+  numSampleBeforeRejection: 30
 --- !u!1 &1949849222
 GameObject:
   m_ObjectHideFlags: 0

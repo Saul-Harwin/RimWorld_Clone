@@ -16,6 +16,7 @@ public class Unit : ScriptableObject
         go = Instantiate(pUnitPrefab, new Vector3(pPos.x, pPos.y + 0.2f), Quaternion.identity);
         go.GetComponent<SpriteRenderer>().sprite = sprite;
         go.GetComponent<UnitGO>().parent = this;
+        go.transform.SetParent(GameObject.Find("Units").transform);
     }
 }
 
