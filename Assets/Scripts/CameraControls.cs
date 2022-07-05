@@ -7,6 +7,11 @@ public class CameraControls : MonoBehaviour
     [SerializeField] float cameraSpeed;
     [SerializeField] float cameraShiftSpeed;
     [SerializeField] float minZoom, maxZoom, zoomSpeed, zoomMoveSpeedEffect;
+    World world;
+
+    void Start(){
+        world = GameManager.Instance.world;
+    }
 
     void Update()
     {
@@ -21,5 +26,13 @@ public class CameraControls : MonoBehaviour
         cam.orthographicSize -= Input.GetAxisRaw("Mouse ScrollWheel") * zoomSpeed;
         if(cam.orthographicSize < minZoom) cam.orthographicSize = minZoom;
         if(cam.orthographicSize > maxZoom) cam.orthographicSize = maxZoom;
+
+        if(Input.GetKeyDown(KeyCode.P)){
+                List<Tile> _tiles = new Pathfinding().FindPath(world.tiles[0, 0], world.tiles[99, 99]);
+                for (int i = 0; i < _tiles.Count; i++)
+                {
+                   _tiles[i].go.GetComponent<SpriteRenderer>().color = Color.red;
+                }
+        }
     }
 }
