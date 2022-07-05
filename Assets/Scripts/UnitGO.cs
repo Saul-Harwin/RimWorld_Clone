@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,11 +28,13 @@ public class UnitGO : MonoBehaviour
         go.transform.position = Vector2.MoveTowards(go.transform.position, target, step);
     }
 
-    public void PathToTile(Tile dest){
+    public async void PathToTile(Tile dest){
         List<Tile> path = new Pathfinding().FindPath(parent.occupypingTile, dest);
         foreach(Tile t in path){
             target = t.go.transform.position;
-            // Wait for unit to reach next tile.
+            while ((Vector2)go.transform.position != target) {
+                await Task.Yield();
+            }
             parent.occupypingTile.occupyingUnit = null;
             parent.occupypingTile = dest;
             dest.occupyingUnit = parent;
