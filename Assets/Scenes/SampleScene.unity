@@ -339,7 +339,7 @@ MonoBehaviour:
   spawnRangeFromCentre: 3
   unitPrefab: {fileID: 6659123477967196567, guid: 6bf81d8fda8a2814f89074fc31dc6483,
     type: 3}
-  testUnit: {fileID: 11400000, guid: 2218f23a2afa55c4aae4fc54e1ab411f, type: 2}
+  testUnit: {fileID: 11400000, guid: 91d93161c8ed0714081eea6bd4d0617d, type: 2}
 --- !u!1 &1347365909
 GameObject:
   m_ObjectHideFlags: 0

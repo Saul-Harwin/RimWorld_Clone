@@ -45,38 +45,38 @@ public class Pathfinding
         World world = GameManager.Instance.world;
 
         // Left
-        if(tile.position.x - 1 >= 0 && world.tiles[tile.position.x - 1, tile.position.y].tileData.walkable){
+        if(tile.position.x - 1 >= 0){
             neighbourList.Add(world.tiles[tile.position.x - 1, tile.position.y]);
             // LDown
-            if(tile.position.y - 1 >= 0 && world.tiles[tile.position.x - 1, tile.position.y - 1].tileData.walkable){
+            if(tile.position.y - 1 >= 0){
                 neighbourList.Add(world.tiles[tile.position.x - 1, tile.position.y - 1]);
             }
             // LUp
-            if(tile.position.y + 1 < world.height && world.tiles[tile.position.x - 1, tile.position.y + 1].tileData.walkable){
+            if(tile.position.y + 1 < world.height){
                 neighbourList.Add(world.tiles[tile.position.x - 1, tile.position.y + 1]);
             }
         }
 
         // Right
-        if(tile.position.x + 1 < world.width && world.tiles[tile.position.x + 1, tile.position.y].tileData.walkable){
+        if(tile.position.x + 1 < world.width){
             neighbourList.Add(world.tiles[tile.position.x + 1, tile.position.y]);
             // RDown
-            if(tile.position.y - 1 >= 0 && world.tiles[tile.position.x + 1, tile.position.y - 1].tileData.walkable){
+            if(tile.position.y - 1 >= 0){
                 neighbourList.Add(world.tiles[tile.position.x + 1, tile.position.y - 1]);
             }
             // RUp
-            if(tile.position.y + 1 < world.height && world.tiles[tile.position.x + 1, tile.position.y + 1].tileData.walkable){
+            if(tile.position.y + 1 < world.height){
                 neighbourList.Add(world.tiles[tile.position.x + 1, tile.position.y + 1]);
             }
         }
 
         // Down
-        if(tile.position.y - 1 >= 0 && world.tiles[tile.position.x, tile.position.y - 1].tileData.walkable){
+        if(tile.position.y - 1 >= 0){
             neighbourList.Add(world.tiles[tile.position.x, tile.position.y - 1]);
         }
 
         // Up
-        if(tile.position.y + 1 < world.height && world.tiles[tile.position.x, tile.position.y + 1].tileData.walkable){
+        if(tile.position.y + 1 < world.height){
             neighbourList.Add(world.tiles[tile.position.x, tile.position.y + 1]);
         }
 
@@ -112,6 +112,10 @@ public class Pathfinding
 
             foreach (Tile neighbourTile in GetNeighbourList(currentTile)){
                 if(closedList.Contains(neighbourTile)) continue;
+                if(!neighbourTile.tileData.walkable){
+                    closedList.Add(neighbourTile);
+                    continue;
+                }
 
                 int tentativeGCost =
                 currentTile.pathFindingData.gCost +
