@@ -7,7 +7,6 @@ public class ObjectPlacer : MonoBehaviour {
     int width = 100;
     int height = 100;
     public int numSampleBeforeRejection = 30;
-    // List<Vector2> points;
 
     public List<Vector2> GeneratePoints(int seed) {
         width = GameManager.Instance.world.width;

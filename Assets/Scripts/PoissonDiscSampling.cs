@@ -9,7 +9,10 @@ public class PoissonDiscSampling : MonoBehaviour {
         List<Vector2> points = new List<Vector2>();
         List<Vector2> spawnPoints = new List<Vector2>();
 
-        spawnPoints.Add(new Vector2(width, height) / 2);
+
+        Vector2 randomStartPoint = new Vector2(Mathf.PerlinNoise(seed * 0.001f, seed * 0.001f) * width, Mathf.PerlinNoise(seed * 0.001f, seed * 0.001f) * height);
+        spawnPoints.Add(randomStartPoint);
+
         float x = seed;
         while(spawnPoints.Count > 0) {
             int spawnIndex = Mathf.RoundToInt(Mathf.PerlinNoise((float)((x) * 0.01f), (float)((x) * 0.01f)) * (spawnPoints.Count - 1));

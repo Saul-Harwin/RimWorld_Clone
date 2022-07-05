@@ -49,7 +49,7 @@ public class World : MonoBehaviour {
         int _seed = seed;
         int i = 0;
         foreach (Object worldObject in objects) {
-            _seed = (int)(_seed / 1.8f);
+            _seed = (int)(_seed / 3.8f);
             objectPoints.Add(this.GetComponent<ObjectPlacer>().GeneratePoints(_seed));
         }
 
