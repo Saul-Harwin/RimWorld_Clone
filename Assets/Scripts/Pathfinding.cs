@@ -5,14 +5,17 @@ using UnityEngine;
 public class Pathfinding
 {
 
-    private List<Tile> openList;
-    private List<Tile> closedList;
+    private const int MOVE_STRAIGHT_COST = 10;
+    private const int MOVE_DIAGONAL_COST = 14;
 
-    int FindManhattanDistance(Vector2Int firstPos, Vector2Int secondPos){
-        return (
-            Mathf.Abs(firstPos.x - secondPos.x) +
-            Mathf.Abs(firstPos.y - secondPos.y)
-        );
+    private List<Tile> openList;
+    private HashSet<Tile> closedList;
+
+    int FindManhattanDistance(Vector2Int a, Vector2Int b){
+        int xDistance = Mathf.Abs(a.x - b.x);
+        int yDistance = Mathf.Abs(a.y - b.y);
+        int remaining = Mathf.Abs(xDistance - yDistance);
+        return MOVE_DIAGONAL_COST * Mathf.Min(xDistance, yDistance) + MOVE_STRAIGHT_COST * remaining;
     }
     Tile GetLowestFCostTile(List<Tile> tileList){
         Tile lowestFCostTile = tileList[0];
@@ -83,7 +86,7 @@ public class Pathfinding
     public List<Tile> FindPath(Tile start, Tile end){
         World world = GameManager.Instance.world;
         openList = new List<Tile> { start };
-        closedList = new List<Tile>();
+        closedList = new HashSet<Tile>();
 
         for (int x = 0; x < world.width; x++)
         {
