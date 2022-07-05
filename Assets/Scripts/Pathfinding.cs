@@ -44,11 +44,27 @@ public class Pathfinding
         // Left
         if(tile.position.x - 1 >= 0 && world.tiles[tile.position.x - 1, tile.position.y].tileData.walkable){
             neighbourList.Add(world.tiles[tile.position.x - 1, tile.position.y]);
+            // LDown
+            if(tile.position.y - 1 >= 0 && world.tiles[tile.position.x - 1, tile.position.y - 1].tileData.walkable){
+                neighbourList.Add(world.tiles[tile.position.x - 1, tile.position.y - 1]);
+            }
+            // LUp
+            if(tile.position.y + 1 < world.height && world.tiles[tile.position.x - 1, tile.position.y + 1].tileData.walkable){
+                neighbourList.Add(world.tiles[tile.position.x - 1, tile.position.y + 1]);
+            }
         }
 
         // Right
         if(tile.position.x + 1 < world.width && world.tiles[tile.position.x + 1, tile.position.y].tileData.walkable){
             neighbourList.Add(world.tiles[tile.position.x + 1, tile.position.y]);
+            // RDown
+            if(tile.position.y - 1 >= 0 && world.tiles[tile.position.x + 1, tile.position.y - 1].tileData.walkable){
+                neighbourList.Add(world.tiles[tile.position.x + 1, tile.position.y - 1]);
+            }
+            // RUp
+            if(tile.position.y + 1 < world.height && world.tiles[tile.position.x + 1, tile.position.y + 1].tileData.walkable){
+                neighbourList.Add(world.tiles[tile.position.x + 1, tile.position.y + 1]);
+            }
         }
 
         // Down

@@ -28,7 +28,7 @@ public class CameraControls : MonoBehaviour
         if(cam.orthographicSize > maxZoom) cam.orthographicSize = maxZoom;
 
         if(Input.GetKeyDown(KeyCode.P)){
-                List<Tile> _tiles = new Pathfinding().FindPath(world.tiles[0, 0], world.tiles[99, 99]);
+                List<Tile> _tiles = new Pathfinding().FindPath(world.tiles[0, 0], world.tiles[53, 55]);
                 for (int i = 0; i < _tiles.Count; i++)
                 {
                    _tiles[i].go.GetComponent<SpriteRenderer>().color = Color.red;
