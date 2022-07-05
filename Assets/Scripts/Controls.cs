@@ -50,9 +50,7 @@ public class Controls : MonoBehaviour
             if(GameManager.Instance.unitManager.selectedUnits.Count != 0){
                 for (int i = 0; i < GameManager.Instance.unitManager.selectedUnits.Count; i++)
                 {
-                    Debug.Log(i);
-                    Debug.Log(GameManager.Instance.unitManager.selectedUnits.Count);
-                    Vector2Int mp = (Vector2Int)Vector3Int.FloorToInt(cam.ScreenToWorldPoint(Input.mousePosition));
+                    Vector2Int mp = (Vector2Int)Vector3Int.RoundToInt(cam.ScreenToWorldPoint(Input.mousePosition));
                     GameManager.Instance.unitManager.selectedUnits[i].go.GetComponent<UnitGO>().PathToTile(world.tiles[mp.x, mp.y]);
                 }     
             }

@@ -33,11 +33,14 @@ public class UnitGO : MonoBehaviour
         foreach(Tile t in path){
             target = t.go.transform.position;
             while ((Vector2)go.transform.position != target) {
+                if(dest.occupyingUnit != null){
+                    return; // Maybe search for nearby tiles in future?
+                }
                 await Task.Yield();
             }
             parent.occupypingTile.occupyingUnit = null;
-            parent.occupypingTile = dest;
-            dest.occupyingUnit = parent;
+            parent.occupypingTile = t;
+            t.occupyingUnit = parent;
         }
     }
 }

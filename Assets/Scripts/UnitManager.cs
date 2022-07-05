@@ -73,6 +73,7 @@ public class UnitManager : MonoBehaviour
             );
             units.Add(unit);
         }
+        // Moves camera to hover over units initially.
         Camera.main.transform.position = new Vector3(units[0].go.transform.position.x, units[0].go.transform.position.y, Camera.main.transform.position.z);
     }
 

@@ -112,7 +112,7 @@ public class Pathfinding
 
             foreach (Tile neighbourTile in GetNeighbourList(currentTile)){
                 if(closedList.Contains(neighbourTile)) continue;
-                if(!neighbourTile.tileData.walkable){
+                if(!neighbourTile.tileData.walkable || neighbourTile.occupyingUnit != null){
                     closedList.Add(neighbourTile);
                     continue;
                 }
