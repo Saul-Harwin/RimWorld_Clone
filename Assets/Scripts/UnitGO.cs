@@ -8,6 +8,7 @@ public class UnitGO : MonoBehaviour
     public Unit parent;
     [SerializeField] Vector2 target;
     GameObject go;
+    List<Tile> path;
     public GameObject highlight;
     void OnMouseDown(){
         if(!GameManager.Instance.unitManager.selectedUnits.Contains(parent)){
@@ -29,18 +30,19 @@ public class UnitGO : MonoBehaviour
     }
 
     public async void PathToTile(Tile dest){
-        List<Tile> path = new Pathfinding().FindPath(parent.occupypingTile, dest);
-        foreach(Tile t in path){
-            target = t.go.transform.position;
+        path = new Pathfinding().FindPath(parent.occupypingTile, dest);
+        target = path[0].go.transform.position;
+        for (int i = 0; i < path.Count; i++)
+        {
+            target = path[i].go.transform.position;
             while ((Vector2)go.transform.position != target) {
-                if(dest.occupyingUnit != null){
-                    return; // Maybe search for nearby tiles in future?
-                }
+                if(dest.occupyingUnit != null) return; // Maybe search for nearby tiles in future?
+                
                 await Task.Yield();
             }
             parent.occupypingTile.occupyingUnit = null;
-            parent.occupypingTile = t;
-            t.occupyingUnit = parent;
+            parent.occupypingTile = path[i];
+            path[i].occupyingUnit = parent;
         }
     }
 }

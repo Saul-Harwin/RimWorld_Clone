@@ -47,12 +47,10 @@ public class Controls : MonoBehaviour
 
     void UnitControls(){
         if(Input.GetMouseButtonDown(1)) {
-            if(GameManager.Instance.unitManager.selectedUnits.Count != 0){
-                for (int i = 0; i < GameManager.Instance.unitManager.selectedUnits.Count; i++)
-                {
-                    Vector2Int mp = (Vector2Int)Vector3Int.RoundToInt(cam.ScreenToWorldPoint(Input.mousePosition));
-                    GameManager.Instance.unitManager.selectedUnits[i].go.GetComponent<UnitGO>().PathToTile(world.tiles[mp.x, mp.y]);
-                }     
+            if(GameManager.Instance.unitManager.selectedUnits.Count == 1){
+                Unit cUnit = GameManager.Instance.unitManager.selectedUnits[0];
+                Vector2Int mp = (Vector2Int)Vector3Int.RoundToInt(cam.ScreenToWorldPoint(Input.mousePosition));
+                cUnit.go.GetComponent<UnitGO>().PathToTile(world.tiles[mp.x, mp.y]);
             }
         }
     }
