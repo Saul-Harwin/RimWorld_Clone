@@ -52,6 +52,7 @@ public class Controls : MonoBehaviour
                 Vector2Int mp = (Vector2Int)Vector3Int.RoundToInt(cam.ScreenToWorldPoint(Input.mousePosition));
                 cUnit.go.GetComponent<UnitGO>().PathToTile(world.tiles[mp.x, mp.y]);
             }
+            GameManager.Instance.unitManager.selectedUnits = new List<Unit>();
         }
     }
 

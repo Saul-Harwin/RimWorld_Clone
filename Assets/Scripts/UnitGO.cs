@@ -36,7 +36,12 @@ public class UnitGO : MonoBehaviour
         {
             target = path[i].go.transform.position;
             while ((Vector2)go.transform.position != target) {
-                if(dest.occupyingUnit != null) return; // Maybe search for nearby tiles in future?
+                if(dest.occupyingUnit != null){
+                    parent.occupypingTile.occupyingUnit = null;
+                    parent.occupypingTile = path[i];
+                    path[i].occupyingUnit = parent;
+                    return; // Maybe search for nearby tiles in future?
+                } 
                 
                 await Task.Yield();
             }
