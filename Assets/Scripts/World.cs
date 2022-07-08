@@ -30,7 +30,7 @@ public class World : MonoBehaviour {
             for (int y = 0; y < height; y++) {
                 tiles[x,y] = ScriptableObject.Instantiate(PickTile(heightMap[x,y]).tile);
                 bool isOffset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
-                tiles[x,y].Initialize(new Vector2(x,y), PickTile(heightMap[x,y]), isOffset, tilePrefab);
+                tiles[x,y].Initialize(new Vector2Int(x,y), PickTile(heightMap[x,y]), isOffset, tilePrefab);
             }
         }
         rivers.GenerateRivers();
