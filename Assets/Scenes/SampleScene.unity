@@ -382,6 +382,7 @@ GameObject:
   - component: {fileID: 1508361302}
   - component: {fileID: 1508361303}
   - component: {fileID: 1508361304}
+  - component: {fileID: 1508361305}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -476,8 +477,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39b67b76fcff5a144b33ae01ca02e1c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 4.39
-  numSampleBeforeRejection: 45
+  radius: 42.67
+  numSampleBeforeRejection: 30
+--- !u!114 &1508361305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1508361301}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2be06dc7ca245749a37db19d7013063, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  riverStartPosition: {x: 0, y: 0}
+  riverLength: 59
+  weight: 0.58
 --- !u!1 &1949849222
 GameObject:
   m_ObjectHideFlags: 0
