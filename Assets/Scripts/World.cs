@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class World : MonoBehaviour {
     public int seed;
+    Rivers rivers;
     public TileData[] tileData;
     public int width, height;
     public Tile[,] tiles;
@@ -17,11 +18,12 @@ public class World : MonoBehaviour {
     public MapData moistureMapData; 
     public MapData temperatureMapData; 
 
-    float[,] heightMap;
-    float[,] moistureMap;
-    float[,] temperatureMap;
+    public float[,] heightMap;
+    public float[,] moistureMap;
+    public float[,] temperatureMap;
 
     public void GenerateWorld() {
+        rivers = GameManager.Instance.world.GetComponent<Rivers>();
         heightMap = new Noise().GenerateNoiseMap(heightMapData);
         tiles = new Tile[width, height];
         for (int x = 0; x < width; x++) {
@@ -31,6 +33,7 @@ public class World : MonoBehaviour {
                 tiles[x,y].Initialize(new Vector2(x,y), PickTile(heightMap[x,y]), isOffset, tilePrefab);
             }
         }
+        rivers.GenerateRivers();
         SpawnObjects();
     }
 
@@ -81,4 +84,5 @@ public struct TileData {
     public Tile tile; 
     public float height;
     public int type;
+    public bool walkable;
 }

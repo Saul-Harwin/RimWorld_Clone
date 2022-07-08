@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Tile", menuName = "ScriptableObjects/Tile", order = 1)]
 public class Tile : ScriptableObject
 {
-    private Vector2 position;
+    public Vector2 position;
     public Color color, offsetColor;
     public GameObject go;
     public Unit occupyingUnit = null;
