@@ -64,7 +64,7 @@ public class World : MonoBehaviour {
                     repeat = true;
                 }
             }
-            i ++;
+            i++;
         }
     }
 }

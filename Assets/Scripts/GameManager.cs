@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; set; }
     public World world;
     public UnitManager unitManager;
+    public JobManager jobManager;
+    public ResourceManager resourceManager;
     public GameState state;
     public static event Action<GameState> OnGameStateChanged;
 
@@ -24,6 +26,8 @@ public class GameManager : MonoBehaviour
         } 
         world = GetComponentInChildren<World>();
         unitManager = GetComponentInChildren<UnitManager>();
+        jobManager = GetComponentInChildren<JobManager>();
+        resourceManager = GetComponentInChildren<ResourceManager>();
     }
 
     void Start(){

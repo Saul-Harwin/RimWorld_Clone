@@ -11,7 +11,7 @@ public class Pathfinding
     private List<Tile> openList;
     private HashSet<Tile> closedList;
 
-    int FindManhattanDistance(Vector2Int a, Vector2Int b){
+    public static int FindManhattanDistance(Vector2Int a, Vector2Int b){
         int xDistance = Mathf.Abs(a.x - b.x);
         int yDistance = Mathf.Abs(a.y - b.y);
         int remaining = Mathf.Abs(xDistance - yDistance);
