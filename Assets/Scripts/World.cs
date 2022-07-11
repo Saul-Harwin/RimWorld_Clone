@@ -67,6 +67,15 @@ public class World : MonoBehaviour {
             i++;
         }
     }
+
+    public Tile screenToTilePosition(){
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if(mouseWorldPosition.x > 0 && mouseWorldPosition.x < width + 0.5f && mouseWorldPosition.y > 0 && mouseWorldPosition.x < height + 0.5f){
+            return GameManager.Instance.world.tiles[Mathf.RoundToInt(mouseWorldPosition.x), Mathf.RoundToInt(mouseWorldPosition.y)];
+        }
+        return null;
+    }
+
 }
 
 [System.Serializable]

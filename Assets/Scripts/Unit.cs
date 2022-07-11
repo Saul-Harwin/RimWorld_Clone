@@ -10,7 +10,7 @@ public class Unit : ScriptableObject
     public GameObject go;
     public Tile occupypingTile;
     public UnitState state;
-    public Job currentJob;
+    [SerializeField] public Job currentJob;
     public Sprite sprite;
 
     public void Initialize(Vector2Int pPos, GameObject pUnitPrefab){

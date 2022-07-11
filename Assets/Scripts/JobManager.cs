@@ -20,11 +20,14 @@ public class JobManager : MonoBehaviour
 
     void CreateJobs(){
         // Harvesting
-        foreach(Object o in GameManager.Instance.world.objects){
-            if(o.markedForHarvest){
-                jobs.Add(new HarvestObjectJob(o));
-                o.markedForHarvest = false;
-                o.currentlyBeingHarvested = true;
+        if(GameManager.Instance.world.objects.Count != 0){
+            foreach(Object o in GameManager.Instance.world.objects){
+                if(o.markedForHarvest && !o.currentlyBeingHarvested){
+                    jobs.Add(new HarvestObjectJob(o));
+                    Debug.Log("Job Added");
+                    o.markedForHarvest = false;
+                    o.currentlyBeingHarvested = true;
+                }
             }
         }
     }
@@ -33,7 +36,7 @@ public class JobManager : MonoBehaviour
         foreach (Unit u in GameManager.Instance.unitManager.units){
             if(u.state == UnitState.IDLE){
                 foreach (Job j in jobs){
-                    if(j.assignedUnit == null){
+                    if(j.assignedUnit == null && u.currentJob == null){
                         u.currentJob = j;
                         u.state = UnitState.HARVESTING;
                         j.assignedUnit = u;

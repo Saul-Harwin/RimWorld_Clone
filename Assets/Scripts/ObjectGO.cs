@@ -8,7 +8,7 @@ public class ObjectGO : MonoBehaviour
     [SerializeField] GameObject harvestMark;
 
     void OnMouseDown(){
-        parent.markedForHarvest = true;
+        // parent.markedForHarvest = true;
     }
 
     void Update(){
