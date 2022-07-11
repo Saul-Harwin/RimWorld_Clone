@@ -3,26 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PoissonDiscSampling : MonoBehaviour {
-    public static List<Vector2> Place(int width, int height, float radius, int seed, int numSampleBeforeRejection = 30) {
+    public static List<Vector2> Place(int width, int height, float radius, int numSampleBeforeRejection = 30) {
         float cellSize = radius / Mathf.Sqrt(2);
         int[,] grid = new int[width, height];
         List<Vector2> points = new List<Vector2>();
         List<Vector2> spawnPoints = new List<Vector2>();
 
 
-        Vector2 randomStartPoint = new Vector2(Mathf.PerlinNoise(seed * 0.001f, seed * 0.001f) * width, Mathf.PerlinNoise(seed * 0.001f, seed * 0.001f) * height);
+        Vector2 randomStartPoint = new Vector2(Random.Range(0, width), Random.Range(0, height));
         spawnPoints.Add(randomStartPoint);
 
-        float x = seed;
         while(spawnPoints.Count > 0) {
-            int spawnIndex = Mathf.RoundToInt(Mathf.PerlinNoise((float)((x) * 0.01f), (float)((x) * 0.01f)) * (spawnPoints.Count - 1));
+            int spawnIndex = Random.Range(0, spawnPoints.Count);
             Vector2 spawnCentre = spawnPoints[spawnIndex];
             bool candidateAccepted = false;
 
             for (var i = 0; i < numSampleBeforeRejection; i++) {
-                float angle = Mathf.PerlinNoise((spawnPoints.Count + i + x) * 0.1f, (spawnPoints.Count + i + x) * 0.1f) * Mathf.PI * 2;
+                float angle = Random.value * Mathf.PI * 2;
                 Vector2 dir = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle));
-                Vector2 candidate = spawnCentre + dir * ((Mathf.PerlinNoise(spawnPoints.Count * i * 0.01f, spawnPoints.Count * i * 0.01f) + 1) * radius);
+                Vector2 candidate = spawnCentre + dir * Random.Range(radius, 2*radius);
                 if(IsValid(candidate, width, height, radius, points, grid)) {
                     points.Add(candidate);
                     spawnPoints.Add(candidate);
@@ -31,7 +30,6 @@ public class PoissonDiscSampling : MonoBehaviour {
                     break;
                 }
             }
-            x += 2;
 
             if(!candidateAccepted) {
                 spawnPoints.RemoveAt(spawnIndex);
@@ -64,4 +62,6 @@ public class PoissonDiscSampling : MonoBehaviour {
         }
         return false;
     }
+
+    
 }
