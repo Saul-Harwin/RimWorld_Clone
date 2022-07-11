@@ -29,6 +29,22 @@ public class UnitGO : MonoBehaviour
         go.transform.position = Vector2.MoveTowards(go.transform.position, target, step);
     }
 
+    void ExecuteChopTreeJob(){
+        Object closestObject = GameManager.Instance.world.objects[0];
+        int smallestDistance = int.MaxValue;
+        foreach (Object obj in GameManager.Instance.world.objects)
+        {
+            int distance = Pathfinding.FindManhattanDistance(parent.position, obj.position);
+            if(obj.objectType == 1){
+                if(distance < smallestDistance){
+                    smallestDistance = distance;
+                    closestObject = obj;
+                }
+            }
+        }
+        PathToTile(closestObject.occupyingTile);
+    }
+
     public async void PathToTile(Tile dest){
         path = new Pathfinding().FindPath(parent.occupypingTile, dest);
         target = path[0].go.transform.position;
@@ -40,6 +56,7 @@ public class UnitGO : MonoBehaviour
                     parent.occupypingTile.occupyingUnit = null;
                     parent.occupypingTile = path[i];
                     path[i].occupyingUnit = parent;
+                    parent.position = parent.occupypingTile.position;
                     return; // Maybe search for nearby tiles in future?
                 } 
                 

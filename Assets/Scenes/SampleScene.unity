@@ -340,6 +340,52 @@ MonoBehaviour:
   unitPrefab: {fileID: 6659123477967196567, guid: 6bf81d8fda8a2814f89074fc31dc6483,
     type: 3}
   testUnit: {fileID: 11400000, guid: 91d93161c8ed0714081eea6bd4d0617d, type: 2}
+--- !u!1 &1210306846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1210306847}
+  - component: {fileID: 1210306848}
+  m_Layer: 0
+  m_Name: ResourceManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1210306847
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210306846}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1949849224}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1210306848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210306846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6676af942b406e749aee394f7da80611, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  woodAmount: 28
+  stoneAmount: 10
 --- !u!1 &1347365909
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,7 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bf16d32d0debbe4a97eba91b295f303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seed: 753
+  seed: 651
   tileData:
   - tile: {fileID: 11400000, guid: 668bc58a3788d6c4c88e9d207d292b5e, type: 2}
     height: 0.4
@@ -439,13 +485,14 @@ MonoBehaviour:
     walkable: 0
   width: 100
   height: 100
-  objects:
+  possibleObjectTypes:
   - {fileID: 11400000, guid: eceac801f0e88d149b4b83326dde5adf, type: 2}
   - {fileID: 11400000, guid: 91f4406e2992a6b4ba1e2f16de90ef18, type: 2}
+  objects: []
   tilePrefab: {fileID: 6581288508445758124, guid: c8b83b678f7472f43a010a4eb3d390ed,
     type: 3}
   heightMapData:
-    seed: 15
+    seed: 76
     numOctaves: 8
     lacunarity: 1.3
     frequency: 0.03
@@ -494,6 +541,50 @@ MonoBehaviour:
   riverStartPosition: {x: 0, y: 0}
   riverLength: 59
   weight: 0.58
+--- !u!1 &1784665429
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1784665430}
+  - component: {fileID: 1784665431}
+  m_Layer: 0
+  m_Name: JobManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1784665430
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1784665429}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1949849224}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1784665431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1784665429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42476ae2e55c19b4cb3ecf366e7df64a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1949849222
 GameObject:
   m_ObjectHideFlags: 0
@@ -525,6 +616,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   world: {fileID: 0}
   unitManager: {fileID: 0}
+  jobManager: {fileID: 0}
+  resourceManager: {fileID: 0}
   state: 0
 --- !u!4 &1949849224
 Transform:
@@ -540,6 +633,8 @@ Transform:
   m_Children:
   - {fileID: 1508361302}
   - {fileID: 724842886}
+  - {fileID: 1784665430}
+  - {fileID: 1210306847}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

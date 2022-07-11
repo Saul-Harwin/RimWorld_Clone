@@ -9,16 +9,23 @@ public class Unit : ScriptableObject
     public Stats stats;
     public GameObject go;
     public Tile occupypingTile;
+    public UnitState state;
+    public Job currentJob;
     public Sprite sprite;
 
     public void Initialize(Vector2Int pPos, GameObject pUnitPrefab){
         position = pPos;
-        //stats = new Stats();
+        state = UnitState.IDLE;
         go = Instantiate(pUnitPrefab, new Vector3(pPos.x, pPos.y), Quaternion.identity);
         go.GetComponent<SpriteRenderer>().sprite = sprite;
         go.GetComponent<UnitGO>().parent = this;
         go.transform.SetParent(GameObject.Find("Units").transform);
     }
+}
+
+public enum UnitState {
+    IDLE,
+    HARVESTING,
 }
 
 [System.Serializable]
