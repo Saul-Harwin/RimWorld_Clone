@@ -46,14 +46,15 @@ public class Controls : MonoBehaviour
     }
 
     void UnitControls(){
-        if(Input.GetMouseButtonDown(1)) {
+        // Right Click To Move Logic Removed For Now
+        /* if(Input.GetMouseButtonDown(1)) {
             if(GameManager.Instance.unitManager.selectedUnits.Count == 1){
                 Unit cUnit = GameManager.Instance.unitManager.selectedUnits[0];
                 Vector2Int mp = (Vector2Int)Vector3Int.RoundToInt(cam.ScreenToWorldPoint(Input.mousePosition));
                 cUnit.go.GetComponent<UnitGO>().PathToTile(world.tiles[mp.x, mp.y]);
             }
             GameManager.Instance.unitManager.selectedUnits = new List<Unit>();
-        }
+        } */
     }
 
 }

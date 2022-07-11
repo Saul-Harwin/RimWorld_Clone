@@ -25,7 +25,7 @@ public class Unit : ScriptableObject
 
 public enum UnitState {
     IDLE,
-    CHOPPING_TREE,
+    HARVESTING,
 }
 
 [System.Serializable]

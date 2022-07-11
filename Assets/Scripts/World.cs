@@ -8,7 +8,8 @@ public class World : MonoBehaviour {
     public TileData[] tileData;
     public int width, height;
     public Tile[,] tiles;
-    public Object[] objects;
+    [SerializeField] private Object[] possibleObjectTypes;
+    public List<Object> objects;
     // public List<List<Vector2>> objectPoints;
 
     // [SerializeField] Tile grassTile, waterTile;
@@ -34,6 +35,7 @@ public class World : MonoBehaviour {
             }
         }
         rivers.GenerateRivers();
+        objects = new List<Object>();
         SpawnObjects();
     }
 
@@ -51,16 +53,16 @@ public class World : MonoBehaviour {
         bool repeat = true;
         int _seed = seed;
         int i = 0;
-        foreach (Object worldObject in objects) {
+        foreach (Object worldObject in possibleObjectTypes) {
             _seed = (int)(_seed / 3.8f);
             objectPoints.Add(this.GetComponent<ObjectPlacer>().GeneratePoints(_seed));
         }
 
         while (repeat == true) {
             repeat = false;
-            for (int objectIndex = 0; objectIndex < objects.Length; objectIndex++) {
+            for (int objectIndex = 0; objectIndex < possibleObjectTypes.Length; objectIndex++) {
                 if (objectPoints[objectIndex].Count != 0) {
-                    objectPoints[objectIndex] = this.GetComponent<ObjectPlacer>().Placer(objectPoints[objectIndex], objects[objectIndex]);
+                    objectPoints[objectIndex] = this.GetComponent<ObjectPlacer>().Placer(objectPoints[objectIndex], ScriptableObject.Instantiate(possibleObjectTypes[objectIndex]));
                     repeat = true;
                 }
             }

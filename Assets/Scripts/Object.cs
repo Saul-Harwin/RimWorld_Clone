@@ -10,6 +10,8 @@ public class Object : ScriptableObject {
     public int objectType;
     public Tile occupyingTile;
     public Sprite[] sprites;
+    public bool markedForHarvest;
+    public bool currentlyBeingHarvested;
 
     public void Initialize(Vector2Int pos, Tile pOccupyingTile){
         position = pos;
@@ -20,7 +22,9 @@ public class Object : ScriptableObject {
         else{
             go = Instantiate(objectPrefab, new Vector3(position.x, position.y), Quaternion.identity);
         }
+        go.GetComponent<ObjectGO>().parent = this;
         go.GetComponent<SpriteRenderer>().sprite = sprites[Random.Range(0, sprites.Length)];
         go.transform.SetParent(GameObject.Find("Objects").transform);
+        GameManager.Instance.world.objects.Add(this);
     }
 }

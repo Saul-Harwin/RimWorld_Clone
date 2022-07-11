@@ -384,7 +384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6676af942b406e749aee394f7da80611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  woodAmount: 48
+  woodAmount: 28
   stoneAmount: 10
 --- !u!1 &1347365909
 GameObject:
@@ -465,7 +465,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bf16d32d0debbe4a97eba91b295f303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seed: 753
+  seed: 651
   tileData:
   - tile: {fileID: 11400000, guid: 668bc58a3788d6c4c88e9d207d292b5e, type: 2}
     height: 0.4
@@ -485,13 +485,14 @@ MonoBehaviour:
     walkable: 0
   width: 100
   height: 100
-  objects:
+  possibleObjectTypes:
   - {fileID: 11400000, guid: eceac801f0e88d149b4b83326dde5adf, type: 2}
   - {fileID: 11400000, guid: 91f4406e2992a6b4ba1e2f16de90ef18, type: 2}
+  objects: []
   tilePrefab: {fileID: 6581288508445758124, guid: c8b83b678f7472f43a010a4eb3d390ed,
     type: 3}
   heightMapData:
-    seed: 15
+    seed: 76
     numOctaves: 8
     lacunarity: 1.3
     frequency: 0.03
