@@ -51,11 +51,9 @@ public class World : MonoBehaviour {
     void SpawnObjects() {
         List<List<Vector2>> objectPoints = new List<List<Vector2>>();
         bool repeat = true;
-        int _seed = seed;
         int i = 0;
         foreach (Object worldObject in possibleObjectTypes) {
-            _seed = (int)(_seed / 3.8f);
-            objectPoints.Add(this.GetComponent<ObjectPlacer>().GeneratePoints(_seed));
+            objectPoints.Add(this.GetComponent<ObjectPlacer>().GeneratePoints());
         }
 
         while (repeat == true) {

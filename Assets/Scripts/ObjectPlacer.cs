@@ -8,10 +8,10 @@ public class ObjectPlacer : MonoBehaviour {
     int height = 100;
     public int numSampleBeforeRejection = 30;
 
-    public List<Vector2> GeneratePoints(int seed) {
+    public List<Vector2> GeneratePoints() {
         width = GameManager.Instance.world.width;
         height = GameManager.Instance.world.height;
-        return PoissonDiscSampling.Place(width, height, radius, seed, numSampleBeforeRejection);
+        return PoissonDiscSampling.Place(width, height, radius, numSampleBeforeRejection);
     }
 
     public List<Vector2> Placer(List<Vector2> points, Object worldObject) {
@@ -25,4 +25,5 @@ public class ObjectPlacer : MonoBehaviour {
         points.RemoveAt(0);
         return points;
     }
+
 }
