@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public ResourceManager resourceManager;
     public GameState state;
     public static event Action<GameState> OnGameStateChanged;
+    public Pathfinding pathfinder;
 
     private void Awake() 
     { 
@@ -28,6 +29,7 @@ public class GameManager : MonoBehaviour
         unitManager = GetComponentInChildren<UnitManager>();
         jobManager = GetComponentInChildren<JobManager>();
         resourceManager = GetComponentInChildren<ResourceManager>();
+        pathfinder = new Pathfinding();
     }
 
     void Start(){

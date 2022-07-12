@@ -12,6 +12,7 @@ public class Object : ScriptableObject {
     public Sprite[] sprites;
     public bool markedForHarvest;
     public bool currentlyBeingHarvested;
+    public Job associatedJob;
 
     public void Initialize(Vector2Int pos, Tile pOccupyingTile){
         position = pos;

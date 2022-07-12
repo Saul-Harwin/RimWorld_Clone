@@ -48,9 +48,9 @@ public class JobManager : MonoBehaviour
 
     void ExecuteJobs()
     {
-        foreach(Job j in jobs){
-            if(!j.beingExecuted && j.assignedUnit != null){
-                j.Execute();
+        for (int j = 0; j < jobs.Count; j++){
+            if(!jobs[j].beingExecuted && jobs[j].assignedUnit != null){
+                jobs[j].Execute();
             }
         }
     }
@@ -62,6 +62,7 @@ abstract public class Job {
     public Unit assignedUnit;
     public bool beingExecuted;
     public abstract void Execute();
+    public abstract void RemoveJob();
 }
 
 [System.Serializable]
@@ -73,7 +74,16 @@ public class HarvestObjectJob : Job{
     }
 
     public async override void Execute(){
+        if(GameManager.Instance.pathfinder.FindPath(assignedUnit.occupypingTile, obj.occupyingTile) == null){
+            Debug.Log("No Path!");
+            GameManager.Instance.jobManager.jobs.Remove(this);
+            obj.markedForHarvest = false;
+            obj.currentlyBeingHarvested = false;
+            assignedUnit.FreeUnitFromJob();
+        }
         beingExecuted = true;
+        obj.associatedJob = this;
+        Debug.Log($"object position = {obj.associatedJob.beingExecuted}");
         assignedUnit.go.GetComponent<UnitGO>().PathToTile(obj.occupyingTile);
         while(assignedUnit.occupypingTile != obj.occupyingTile){
             await Task.Yield();
@@ -91,6 +101,22 @@ public class HarvestObjectJob : Job{
         assignedUnit.state = UnitState.IDLE;
         if(obj.objectType == 0) { GameManager.Instance.resourceManager.woodAmount += 10; }
         else if(obj.objectType == 1) { GameManager.Instance.resourceManager.stoneAmount += 10; }
+    }
+
+    public override void RemoveJob()
+    {
+        // Remove Job
+        GameManager.Instance.jobManager.jobs.Remove(this);
+
+        // Free Unit From Job
+        assignedUnit.currentJob = null;
+        assignedUnit.state = UnitState.IDLE;
+
+        // Free Object From Job
+        obj.associatedJob = null;
+        obj.markedForHarvest = false;
+        obj.currentlyBeingHarvested = false;
+        Debug.Log($"Here");
     }
 }
 

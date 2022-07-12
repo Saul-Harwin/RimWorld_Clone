@@ -360,6 +360,8 @@ MonoBehaviour:
   zoomSpeed: 4
   zoomMoveSpeedEffect: 0.2
   selectionBox: {fileID: 1833104938}
+  addToSelectionColor: {r: 1, g: 1, b: 1, a: 0.4745098}
+  removeFromSelectionColor: {r: 1, g: 0, b: 0, a: 0.49019608}
   playerState: 0
 --- !u!1 &601708777
 GameObject:
@@ -572,8 +574,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   units: []
   selectedUnits: []
-  startingUnitCount: 5
-  spawnRangeFromCentre: 3
+  startingUnitCount: 30
+  spawnRangeFromCentre: 10
   unitPrefab: {fileID: 6659123477967196567, guid: 6bf81d8fda8a2814f89074fc31dc6483,
     type: 3}
   testUnit: {fileID: 11400000, guid: 91d93161c8ed0714081eea6bd4d0617d, type: 2}

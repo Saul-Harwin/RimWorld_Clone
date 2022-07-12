@@ -17,6 +17,7 @@ public class Controls : MonoBehaviour
     bool dragSelect;
     [Header("UI")]
     [SerializeField] GameObject selectionBox;
+    [SerializeField] Color addToSelectionColor, removeFromSelectionColor;
 
     [Header("Misc.")]
     public PlayerState playerState;
@@ -40,7 +41,7 @@ public class Controls : MonoBehaviour
 
         // Temporary Keybinds
         if(Input.GetKeyDown(KeyCode.P)){
-                List<Tile> _tiles = new Pathfinding().FindPath(world.tiles[0, 0], world.tiles[53, 55]);
+                List<Tile> _tiles = GameManager.Instance.pathfinder.FindPath(world.tiles[0, 0], world.tiles[53, 55]);
                 for (int i = 0; i < _tiles.Count; i++)
                 {
                    _tiles[i].go.GetComponent<SpriteRenderer>().color = Color.red;
@@ -75,23 +76,25 @@ public class Controls : MonoBehaviour
         if(Input.GetMouseButtonUp(0)){
             // SINGLE SELECT
             if(dragSelect == false){
-                switch(playerState){
-                    case PlayerState.VIEWING:
-                        break;
-                    case PlayerState.FORESTING:
-                        if(GameManager.Instance.world.screenToTilePosition().occupyingObject != null){
-                            if(GameManager.Instance.world.screenToTilePosition().occupyingObject.objectType == 0){
-                                GameManager.Instance.world.screenToTilePosition().occupyingObject.markedForHarvest = true;
+                if(GameManager.Instance.world.screenToTilePosition() != null){
+                    switch(playerState){
+                        case PlayerState.VIEWING:
+                            break;
+                        case PlayerState.FORESTING:
+                            if(GameManager.Instance.world.screenToTilePosition().occupyingObject != null){
+                                if(GameManager.Instance.world.screenToTilePosition().occupyingObject.objectType == 0 && !GameManager.Instance.world.screenToTilePosition().occupyingObject.currentlyBeingHarvested){
+                                    GameManager.Instance.world.screenToTilePosition().occupyingObject.markedForHarvest = true;
+                                }
                             }
-                        }
-                        break;
-                    case PlayerState.MINING:
-                        if(GameManager.Instance.world.screenToTilePosition().occupyingObject != null){
-                            if(GameManager.Instance.world.screenToTilePosition().occupyingObject.objectType == 1){
-                                GameManager.Instance.world.screenToTilePosition().occupyingObject.markedForHarvest = true;
+                            break;
+                        case PlayerState.MINING:
+                            if(GameManager.Instance.world.screenToTilePosition().occupyingObject != null){
+                                if(GameManager.Instance.world.screenToTilePosition().occupyingObject.objectType == 1 && !GameManager.Instance.world.screenToTilePosition().occupyingObject.currentlyBeingHarvested){
+                                    GameManager.Instance.world.screenToTilePosition().occupyingObject.markedForHarvest = true;
+                                }
                             }
-                        }
-                        break;
+                            break;
+                    }
                 }
             }
             // DRAG SELECT
@@ -104,8 +107,6 @@ public class Controls : MonoBehaviour
                 if(upperBound.x > GameManager.Instance.world.width) upperBound.x = GameManager.Instance.world.width;
                 if(upperBound.y > GameManager.Instance.world.height) upperBound.y = GameManager.Instance.world.height;
 
-                Debug.Log($"lby {Mathf.RoundToInt(lowerBound.y)}, uby{Mathf.RoundToInt(upperBound.y)}");
-
                 for (int x = Mathf.RoundToInt(lowerBound.x); x < Mathf.RoundToInt(upperBound.x); x++)
                 {
                     for (int y = Mathf.RoundToInt(lowerBound.y); y < Mathf.RoundToInt(upperBound.y); y++){
@@ -114,14 +115,14 @@ public class Controls : MonoBehaviour
                                 break;
                             case PlayerState.FORESTING:
                                 if(GameManager.Instance.world.tiles[x, y].occupyingObject != null){
-                                    if(GameManager.Instance.world.tiles[x, y].occupyingObject.objectType == 0){
+                                    if(GameManager.Instance.world.tiles[x, y].occupyingObject.objectType == 0 && !GameManager.Instance.world.tiles[x, y].occupyingObject.currentlyBeingHarvested){
                                         GameManager.Instance.world.tiles[x, y].occupyingObject.markedForHarvest = true;
                                     }
                                 }
                                 break;
                             case PlayerState.MINING:
                                 if(GameManager.Instance.world.tiles[x, y].occupyingObject != null){
-                                    if(GameManager.Instance.world.tiles[x, y].occupyingObject.objectType == 1){
+                                    if(GameManager.Instance.world.tiles[x, y].occupyingObject.objectType == 1 && !GameManager.Instance.world.tiles[x, y].occupyingObject.currentlyBeingHarvested){
                                         GameManager.Instance.world.tiles[x, y].occupyingObject.markedForHarvest = true;
                                     }
                                 }
@@ -141,6 +142,12 @@ public class Controls : MonoBehaviour
         float height = mouseScreenPosition.y - mousePos1.y;
         rect.sizeDelta = new Vector2(Mathf.Abs(width), Mathf.Abs(height));
         rect.anchoredPosition = new Vector2(mousePos1.x, mousePos1.y) + new Vector2(width / 2, height / 2);
+        if(Input.GetKey(KeyCode.LeftShift)){
+            rect.GetComponent<Image>().color = removeFromSelectionColor;
+        }
+        else {
+            rect.GetComponent<Image>().color = addToSelectionColor;
+        }
     }
 
     public void ChangeToViewingState(){ playerState = PlayerState.VIEWING; }
