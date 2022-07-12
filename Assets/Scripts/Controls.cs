@@ -109,26 +109,44 @@ public class Controls : MonoBehaviour
     }
 
     void SelectedTilesAction(){
-        foreach(Tile t in selectedTiles){
-            switch(playerState){
-                case PlayerState.FORESTING: ForestingAction(t); break;
-                case PlayerState.MINING: MiningAction(t); break;
+        List<Tile> cachedSelectedTiles = selectedTiles;
+        for (int i = 0; i < cachedSelectedTiles.Count; i++)
+        {
+            if(cachedSelectedTiles[i].occupyingObject != null){
+                switch(playerState){
+                    case PlayerState.FORESTING: ForestingAction(cachedSelectedTiles[i]); break;
+                    case PlayerState.MINING: MiningAction(cachedSelectedTiles[i]); break;
+                }
             }
         }
     }
 
     void ForestingAction(Tile t){
-        if(t.occupyingObject != null){
-            if(t.occupyingObject.objectType == 0 && !t.occupyingObject.currentlyBeingHarvested){
-                t.occupyingObject.markedForHarvest = true;
+        if(t.occupyingObject.objectType == 0){
+            if(t.occupyingObject.currentlyBeingHarvested || t.occupyingObject.markedForHarvest){
+                if(Input.GetKey(KeyCode.LeftShift)){
+                    t.occupyingObject.associatedJob.RemoveJob();
+                }
+            }
+            if(!t.occupyingObject.currentlyBeingHarvested){
+                if(!Input.GetKey(KeyCode.LeftShift)){
+                    t.occupyingObject.markedForHarvest = true;
+                }
             }
         }
     }
 
     void MiningAction(Tile t){
-        if(t.occupyingObject != null){
-            if(t.occupyingObject.objectType == 1 && !t.occupyingObject.currentlyBeingHarvested){
-                t.occupyingObject.markedForHarvest = true;
+        if(t.occupyingObject.objectType == 1){
+            if(t.occupyingObject.currentlyBeingHarvested || t.occupyingObject.markedForHarvest){
+                if(Input.GetKey(KeyCode.LeftShift)){
+                    t.occupyingObject.associatedJob.RemoveJob();
+                }
+            }
+            if(!t.occupyingObject.currentlyBeingHarvested){
+                if(!Input.GetKey(KeyCode.LeftShift)){
+                    t.occupyingObject.markedForHarvest = true;
+                }
             }
         }
     }

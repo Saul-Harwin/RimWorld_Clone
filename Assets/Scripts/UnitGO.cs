@@ -10,6 +10,7 @@ public class UnitGO : MonoBehaviour
     GameObject go;
     List<Tile> path;
     public GameObject highlight;
+    public bool cancelPathing = false;
     void OnMouseDown(){
         if(!GameManager.Instance.unitManager.selectedUnits.Contains(parent)){
             GameManager.Instance.unitManager.selectedUnits.Add(parent);
@@ -37,18 +38,16 @@ public class UnitGO : MonoBehaviour
         {
             target = path[i].go.transform.position;
             while ((Vector2)go.transform.position != target) {
-                /*
-                if(dest.occupyingUnit != null){
+                if(cancelPathing){
+                    cancelPathing = false;
                     parent.occupypingTile.occupyingUnit = null;
                     parent.occupypingTile = path[i];
                     path[i].occupyingUnit = parent;
                     parent.position = parent.occupypingTile.position;
                     parent.currentJob = null;
                     parent.state = UnitState.IDLE;
-                    Debug.Log("PATH INTERFERED");
                     return; // Maybe search for nearby tiles in future?
                 } 
-                */
                 
                 await Task.Yield();
             }

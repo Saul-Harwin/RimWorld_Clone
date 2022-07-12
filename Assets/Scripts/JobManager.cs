@@ -60,6 +60,7 @@ abstract public class Job {
     public JobType type;
     public Unit assignedUnit;
     public bool beingExecuted;
+    public bool cancelled = false;
     public abstract void Execute();
     public abstract void RemoveJob();
 }
@@ -70,13 +71,13 @@ public class HarvestObjectJob : Job{
     public HarvestObjectJob(Object objectToHarvest){
         type = JobType.HARVESTOBJECT;
         obj = objectToHarvest;
+        obj.associatedJob = this;
     }
 
     public async override void Execute(){
         if(GameManager.Instance.pathfinder.FindPath(assignedUnit.occupypingTile, obj.occupyingTile) == null){
             Debug.Log("No Path!");
             GameManager.Instance.jobManager.jobs.Remove(this);
-            obj.markedForHarvest = false;
             obj.currentlyBeingHarvested = false;
             assignedUnit.FreeUnitFromJob();
         }
@@ -84,6 +85,16 @@ public class HarvestObjectJob : Job{
         obj.associatedJob = this;
         assignedUnit.go.GetComponent<UnitGO>().PathToTile(obj.occupyingTile);
         while(assignedUnit.occupypingTile != obj.occupyingTile){
+            if(cancelled){
+                assignedUnit.go.GetComponent<UnitGO>().cancelPathing = true;
+                obj.currentlyBeingHarvested = false;
+                obj.associatedJob = null;
+                assignedUnit.currentJob = null;
+                assignedUnit.state = UnitState.IDLE;
+                assignedUnit.go.GetComponent<UnitGO>().cancelPathing = true;
+                obj.currentlyBeingHarvested = false;
+                return;
+            } 
             await Task.Yield();
         }
         // Delete Object
@@ -105,16 +116,8 @@ public class HarvestObjectJob : Job{
     {
         // Remove Job
         GameManager.Instance.jobManager.jobs.Remove(this);
-
-        // Free Unit From Job
-        assignedUnit.currentJob = null;
-        assignedUnit.state = UnitState.IDLE;
-
-        // Free Object From Job
-        obj.associatedJob = null;
-        obj.markedForHarvest = false;
+        cancelled = true;
         obj.currentlyBeingHarvested = false;
-        Debug.Log($"Here");
     }
 }
 
