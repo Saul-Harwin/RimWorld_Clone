@@ -24,7 +24,6 @@ public class JobManager : MonoBehaviour
             foreach(Object o in GameManager.Instance.world.objects){
                 if(o.markedForHarvest && !o.currentlyBeingHarvested){
                     jobs.Add(new HarvestObjectJob(o));
-                    Debug.Log("Job Added");
                     o.markedForHarvest = false;
                     o.currentlyBeingHarvested = true;
                 }
@@ -83,7 +82,6 @@ public class HarvestObjectJob : Job{
         }
         beingExecuted = true;
         obj.associatedJob = this;
-        Debug.Log($"object position = {obj.associatedJob.beingExecuted}");
         assignedUnit.go.GetComponent<UnitGO>().PathToTile(obj.occupyingTile);
         while(assignedUnit.occupypingTile != obj.occupyingTile){
             await Task.Yield();

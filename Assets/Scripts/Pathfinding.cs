@@ -129,6 +129,7 @@ public class Pathfinding
                         end.position
                     );
                     neighbourTile.pathFindingData.CalculateFCost();
+                    if(currentTile.pathFindingData.fCost > 2000) return null;   // BAD METHOD NEED TO BE CHANGED I THINK
                     if(!openList.Contains(neighbourTile)){
                         openList.Add(neighbourTile);
                     }
