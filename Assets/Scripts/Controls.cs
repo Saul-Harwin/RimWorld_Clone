@@ -21,6 +21,7 @@ public class Controls : MonoBehaviour
 
     [Header("Misc.")]
     public PlayerState playerState;
+    List<Tile> selectedTiles;
 
     void Start(){
         world = GameManager.Instance.world;
@@ -29,6 +30,7 @@ public class Controls : MonoBehaviour
 
     void Update()
     {
+        selectedTiles = new List<Tile>();
         mouseScreenPosition = Input.mousePosition;
         mouseWorldPosition = cam.ScreenToWorldPoint(mouseScreenPosition);
         TransformSelectionBox();
@@ -63,44 +65,31 @@ public class Controls : MonoBehaviour
     }
 
     void WorldInteraction(){
-        if(Input.GetMouseButtonDown(0)){
-            mousePos1 = mouseScreenPosition;
-        }
+        if(Input.GetMouseButtonDown(0)) mousePos1 = mouseScreenPosition;
 
         if(Input.GetMouseButton(0)){
-            if((mousePos1 - mouseScreenPosition).magnitude > 40){
-                dragSelect = true;
-            }
+            if((mousePos1 - mouseScreenPosition).magnitude > 40) dragSelect = true;
         }
         
         if(Input.GetMouseButtonUp(0)){
-            // SINGLE SELECT
             if(dragSelect == false){
                 if(GameManager.Instance.world.screenToTilePosition() != null){
-                    switch(playerState){
-                        case PlayerState.VIEWING:
-                            break;
-                        case PlayerState.FORESTING:
-                            if(GameManager.Instance.world.screenToTilePosition().occupyingObject != null){
-                                if(GameManager.Instance.world.screenToTilePosition().occupyingObject.objectType == 0 && !GameManager.Instance.world.screenToTilePosition().occupyingObject.currentlyBeingHarvested){
-                                    GameManager.Instance.world.screenToTilePosition().occupyingObject.markedForHarvest = true;
-                                }
-                            }
-                            break;
-                        case PlayerState.MINING:
-                            if(GameManager.Instance.world.screenToTilePosition().occupyingObject != null){
-                                if(GameManager.Instance.world.screenToTilePosition().occupyingObject.objectType == 1 && !GameManager.Instance.world.screenToTilePosition().occupyingObject.currentlyBeingHarvested){
-                                    GameManager.Instance.world.screenToTilePosition().occupyingObject.markedForHarvest = true;
-                                }
-                            }
-                            break;
-                    }
+                    selectedTiles.Add(GameManager.Instance.world.screenToTilePosition());
                 }
             }
-            // DRAG SELECT
             else{
-                Vector2 lowerBound = cam.ScreenToWorldPoint(new Vector3(Mathf.Min(mousePos1.x, mouseScreenPosition.x), Mathf.Min(mousePos1.y, mouseScreenPosition.y)));
-                Vector2 upperBound = cam.ScreenToWorldPoint(new Vector3(Mathf.Max(mousePos1.x, mouseScreenPosition.x), Mathf.Max(mousePos1.y, mouseScreenPosition.y)));
+                Vector2 lowerBound = cam.ScreenToWorldPoint(
+                    new Vector3(
+                        Mathf.Min(mousePos1.x, mouseScreenPosition.x),
+                        Mathf.Min(mousePos1.y, mouseScreenPosition.y)
+                    )
+                );
+                Vector2 upperBound = cam.ScreenToWorldPoint(
+                    new Vector3(
+                        Mathf.Max(mousePos1.x, mouseScreenPosition.x), 
+                        Mathf.Max(mousePos1.y, mouseScreenPosition.y)
+                    )
+                );
 
                 if(lowerBound.x < 0) lowerBound.x = 0;
                 if(lowerBound.y < 0) lowerBound.y = 0;
@@ -110,33 +99,42 @@ public class Controls : MonoBehaviour
                 for (int x = Mathf.RoundToInt(lowerBound.x); x < Mathf.RoundToInt(upperBound.x); x++)
                 {
                     for (int y = Mathf.RoundToInt(lowerBound.y); y < Mathf.RoundToInt(upperBound.y); y++){
-                        switch(playerState){
-                            case PlayerState.VIEWING:
-                                break;
-                            case PlayerState.FORESTING:
-                                if(GameManager.Instance.world.tiles[x, y].occupyingObject != null){
-                                    if(GameManager.Instance.world.tiles[x, y].occupyingObject.objectType == 0 && !GameManager.Instance.world.tiles[x, y].occupyingObject.currentlyBeingHarvested){
-                                        GameManager.Instance.world.tiles[x, y].occupyingObject.markedForHarvest = true;
-                                    }
-                                }
-                                break;
-                            case PlayerState.MINING:
-                                if(GameManager.Instance.world.tiles[x, y].occupyingObject != null){
-                                    if(GameManager.Instance.world.tiles[x, y].occupyingObject.objectType == 1 && !GameManager.Instance.world.tiles[x, y].occupyingObject.currentlyBeingHarvested){
-                                        GameManager.Instance.world.tiles[x, y].occupyingObject.markedForHarvest = true;
-                                    }
-                                }
-                                break;
-                        }
+                        selectedTiles.Add(GameManager.Instance.world.tiles[x, y]);
                     }
                 }
             }
             dragSelect = false;
+            SelectedTilesAction();
         }
     }
 
-    void TransformSelectionBox(){
-        selectionBox.SetActive(dragSelect);
+    void SelectedTilesAction(){
+        foreach(Tile t in selectedTiles){
+            switch(playerState){
+                case PlayerState.FORESTING: ForestingAction(t); break;
+                case PlayerState.MINING: MiningAction(t); break;
+            }
+        }
+    }
+
+    void ForestingAction(Tile t){
+        if(t.occupyingObject != null){
+            if(t.occupyingObject.objectType == 0 && !t.occupyingObject.currentlyBeingHarvested){
+                t.occupyingObject.markedForHarvest = true;
+            }
+        }
+    }
+
+    void MiningAction(Tile t){
+        if(t.occupyingObject != null){
+            if(t.occupyingObject.objectType == 1 && !t.occupyingObject.currentlyBeingHarvested){
+                t.occupyingObject.markedForHarvest = true;
+            }
+        }
+    }
+
+void TransformSelectionBox(){
+    selectionBox.SetActive(dragSelect);
         RectTransform rect = selectionBox.GetComponent<RectTransform>();
         float width = mouseScreenPosition.x - mousePos1.x;
         float height = mouseScreenPosition.y - mousePos1.y;
