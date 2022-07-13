@@ -171,10 +171,7 @@ public class HaulObjectJob : Job{
         GameManager.Instance.world.objects.Remove(obj);
         GameObject.Destroy(obj.go);
         GameObject.Destroy(obj);
-        Tile tempHaulTile = GameManager.Instance.world.tiles[0,0];
-        while(assignedUnit.go.GetComponent<UnitGO>().currentlyPathing){
-            await Task.Yield();
-        }
+        Tile tempHaulTile = GameManager.Instance.world.tiles[50,50];
         assignedUnit.go.GetComponent<UnitGO>().PathToTile(tempHaulTile);
         while(assignedUnit.occupyingTile != tempHaulTile){
             if(cancelled){

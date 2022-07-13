@@ -45,12 +45,11 @@ public class UnitGO : MonoBehaviour
     }
 
     public async void PathToTile(Tile dest){
-        if(currentlyPathing) return;
+        while(currentlyPathing) await Task.Yield();
         path = GameManager.Instance.pathfinder.FindPath(parent.occupyingTile, dest);
         if(path == null) { parent.FreeUnitFromJob(); return; }
         for (int i = 0; i < path.Count; i++)
         {
-            currentlyPathing = true;
             target = path[i].go.transform.position;
             while ((Vector2)go.transform.position != target) {
                 if(cancelPathing){
@@ -69,6 +68,7 @@ public class UnitGO : MonoBehaviour
                 parent.occupyingTile = path[i];
                 path[i].occupyingUnit = parent;
                 parent.position = parent.occupyingTile.position;
+                currentlyPathing = true;
                 await Task.Yield();
             }
         }
