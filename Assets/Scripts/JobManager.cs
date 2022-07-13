@@ -93,6 +93,7 @@ public class HarvestObjectJob : Job{
                 assignedUnit.state = UnitState.IDLE;
                 assignedUnit.go.GetComponent<UnitGO>().cancelPathing = true;
                 obj.currentlyBeingHarvested = false;
+                cancelled = false;
                 return;
             } 
             await Task.Yield();
