@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f49d6228dcea7e54aafc0d869eb3e667, type: 3}
+  m_Name: Dropped Rock
+  m_EditorClassIdentifier: 
+  position: {x: 0, y: 0}
+  objectPrefab: {fileID: 5144614994317800569, guid: c6b7b63f231ba594491411fcae0fcdc8,
+    type: 3}
+  go: {fileID: 0}
+  objectType: 4
+  occupyingTile: {fileID: 0}
+  sprites:
+  - {fileID: 21300000, guid: 9abbcb99acb15204880ac4e527f34cce, type: 3}
+  markedForHarvest: 0
+  currentlyBeingHarvested: 0
+  objectClass: 0
+  droppedObject: {fileID: 0}
