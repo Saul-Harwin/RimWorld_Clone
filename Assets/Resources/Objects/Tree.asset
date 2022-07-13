@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 10895619b0f67df40945869435f1640d, type: 3}
   m_Name: Tree
   m_EditorClassIdentifier: Assembly-CSharp::HarvestableObject
   position: {x: 0, y: 0}
