@@ -8,10 +8,11 @@ public class Unit : ScriptableObject
     public Vector2Int position;
     public Stats stats;
     public GameObject go;
-    public Tile occupypingTile;
+    public Tile occupyingTile;
     public UnitState state;
     [SerializeField] public Job currentJob;
     public Sprite sprite;
+    public HaulableObject haulingObject;
 
     public void Initialize(Vector2Int pPos, GameObject pUnitPrefab){
         position = pPos;
@@ -31,6 +32,7 @@ public class Unit : ScriptableObject
 public enum UnitState {
     IDLE,
     HARVESTING,
+    HAULING,
 }
 
 [System.Serializable]

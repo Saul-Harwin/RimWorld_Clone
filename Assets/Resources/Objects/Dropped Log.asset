@@ -9,18 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f49d6228dcea7e54aafc0d869eb3e667, type: 3}
-  m_Name: DroppedLog
+  m_Script: {fileID: 11500000, guid: d790d5abfe19a7543845dee070b1563a, type: 3}
+  m_Name: Dropped Log
   m_EditorClassIdentifier: 
   position: {x: 0, y: 0}
   objectPrefab: {fileID: 5144614994317800569, guid: c6b7b63f231ba594491411fcae0fcdc8,
     type: 3}
   go: {fileID: 0}
-  objectType: 3
+  objectType: 2
   occupyingTile: {fileID: 0}
   sprites:
   - {fileID: 21300000, guid: a222aa5e881a27247a4a66e19d3b57d1, type: 3}
-  markedForHarvest: 0
-  currentlyBeingHarvested: 0
-  objectClass: 0
-  droppedObject: {fileID: 0}
+  markedForHauling: 0
+  currentlyBeingHauled: 0

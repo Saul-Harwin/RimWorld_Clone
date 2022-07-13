@@ -19,7 +19,7 @@ public class ObjectPlacer : MonoBehaviour {
         if (GameManager.Instance.world.tiles[(int)(point.x), (int)(point.y)].tileData.type == 2 &&
             GameManager.Instance.world.tiles[(int)(point.x), (int)(point.y)].occupyingObject == null)
         {
-            worldObject.Initialize(new Vector2Int((int)point.x, (int)point.y), GameManager.Instance.world.tiles[(int)point.x, (int)point.y], ObjectClass.HARVESTABLE);
+            worldObject.Initialize(new Vector2Int((int)point.x, (int)point.y), GameManager.Instance.world.tiles[(int)point.x, (int)point.y]);
             GameManager.Instance.world.tiles[(int)(point.x), (int)(point.y)].occupyingObject = worldObject;
         }
         points.RemoveAt(0);

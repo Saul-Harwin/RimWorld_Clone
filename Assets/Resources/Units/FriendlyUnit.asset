@@ -15,8 +15,9 @@ MonoBehaviour:
   position: {x: 0, y: 0}
   stats:
     health: 100
-    moveSpeed: 1
+    moveSpeed: 10
   go: {fileID: 0}
-  occupypingTile: {fileID: 0}
+  occupyingTile: {fileID: 0}
   state: 0
   sprite: {fileID: 21300000, guid: 50fd84b9890db7b4a8b2be7792977e32, type: 3}
+  haulingObject: {fileID: 0}

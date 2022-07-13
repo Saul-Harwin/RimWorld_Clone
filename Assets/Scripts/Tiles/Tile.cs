@@ -26,7 +26,7 @@ public class Tile : ScriptableObject
 
     public void SetOccupyingUnit(Unit unit){
         occupyingUnit = unit;
-        unit.occupypingTile = this;
+        unit.occupyingTile = this;
     }
 
 }

@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f49d6228dcea7e54aafc0d869eb3e667, type: 3}
+  m_Script: {fileID: 0}
   m_Name: Tree
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assembly-CSharp::HarvestableObject
   position: {x: 0, y: 0}
   objectPrefab: {fileID: 5827061997526342686, guid: 0beb9bad5d39a9041b90a9a7199242d6,
     type: 3}
@@ -23,5 +23,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 429c0ac1e23a6444d9d78f784afb2569, type: 3}
   markedForHarvest: 0
   currentlyBeingHarvested: 0
-  objectClass: 0
-  droppedObject: {fileID: 11400000, guid: 1e2ae4f93dec55140bbb97dd427786f7, type: 2}
+  droppedObject: {fileID: 11400000, guid: 5186460bb8bc3cf429be8d9f4df3d79d, type: 2}
