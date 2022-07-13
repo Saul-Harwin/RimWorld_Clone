@@ -9,7 +9,9 @@ public class UnitGO : MonoBehaviour
     public Vector2 target;
     GameObject go;
     List<Tile> path;
+    public bool currentlyPathing;
     public GameObject highlight;
+    public GameObject haulingSprite;
     public bool cancelPathing = false;
     void OnMouseDown(){
         if(!GameManager.Instance.unitManager.selectedUnits.Contains(parent)){
@@ -28,32 +30,51 @@ public class UnitGO : MonoBehaviour
     void Update(){
         float step = parent.stats.moveSpeed * Time.deltaTime;
         go.transform.position = Vector2.MoveTowards(go.transform.position, target, step);
+        UpdateHaulingObject();
+    }
+
+    void UpdateHaulingObject(){
+        if(parent.haulingObject != null){
+            haulingSprite.GetComponent<SpriteRenderer>().sprite = parent.haulingObject.sprites[0];
+            haulingSprite.GetComponent<SpriteRenderer>().enabled = true;
+        }
+        else{
+            haulingSprite.GetComponent<SpriteRenderer>().enabled = false;
+        }
+
     }
 
     public async void PathToTile(Tile dest){
-        path = GameManager.Instance.pathfinder.FindPath(parent.occupypingTile, dest);
+        while(currentlyPathing) await Task.Yield();
+        path = GameManager.Instance.pathfinder.FindPath(parent.occupyingTile, dest);
         if(path == null) { parent.FreeUnitFromJob(); return; }
-        target = path[0].go.transform.position;
         for (int i = 0; i < path.Count; i++)
         {
             target = path[i].go.transform.position;
             while ((Vector2)go.transform.position != target) {
                 if(cancelPathing){
                     cancelPathing = false;
-                    parent.occupypingTile.occupyingUnit = null;
-                    parent.occupypingTile = path[i];
+                    parent.occupyingTile.occupyingUnit = null;
+                    parent.occupyingTile = path[i];
                     path[i].occupyingUnit = parent;
-                    parent.position = parent.occupypingTile.position;
+                    parent.position = parent.occupyingTile.position;
                     parent.currentJob = null;
                     parent.state = UnitState.IDLE;
+                    target = parent.occupyingTile.position;
+                    currentlyPathing = false;
                     return; // Maybe search for nearby tiles in future?
                 } 
-                
+                parent.occupyingTile.occupyingUnit = null;
+                parent.occupyingTile = path[i];
+                path[i].occupyingUnit = parent;
+                parent.position = parent.occupyingTile.position;
+                currentlyPathing = true;
                 await Task.Yield();
             }
-            parent.occupypingTile.occupyingUnit = null;
-            parent.occupypingTile = path[i];
-            path[i].occupyingUnit = parent;
         }
+        parent.occupyingTile.occupyingUnit = null;
+        parent.occupyingTile = dest;
+        dest.occupyingUnit = parent;
+        currentlyPathing = false;
     }
 }

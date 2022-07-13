@@ -925,8 +925,8 @@ MonoBehaviour:
   width: 100
   height: 100
   possibleObjectTypes:
-  - {fileID: 11400000, guid: eceac801f0e88d149b4b83326dde5adf, type: 2}
   - {fileID: 11400000, guid: 91f4406e2992a6b4ba1e2f16de90ef18, type: 2}
+  - {fileID: 11400000, guid: eceac801f0e88d149b4b83326dde5adf, type: 2}
   objects: []
   tilePrefab: {fileID: 6581288508445758124, guid: c8b83b678f7472f43a010a4eb3d390ed,
     type: 3}

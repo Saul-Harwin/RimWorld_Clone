@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Controls : MonoBehaviour
 {
@@ -114,38 +116,44 @@ public class Controls : MonoBehaviour
         {
             if(cachedSelectedTiles[i].occupyingObject != null){
                 switch(playerState){
-                    case PlayerState.FORESTING: ForestingAction(cachedSelectedTiles[i]); break;
-                    case PlayerState.MINING: MiningAction(cachedSelectedTiles[i]); break;
+                    case PlayerState.FORESTING: 
+                        var fobj = cachedSelectedTiles[i].occupyingObject as HarvestableObject;
+                        if(fobj != null) ForestingAction(cachedSelectedTiles[i].occupyingObject as HarvestableObject);
+                        break;
+                    case PlayerState.MINING:
+                        var mobj = cachedSelectedTiles[i].occupyingObject as HarvestableObject;
+                        if(mobj != null) MiningAction(cachedSelectedTiles[i].occupyingObject as HarvestableObject);
+                        break;
                 }
             }
         }
     }
 
-    void ForestingAction(Tile t){
-        if(t.occupyingObject.objectType == 0){
-            if(t.occupyingObject.currentlyBeingHarvested || t.occupyingObject.markedForHarvest){
+    void ForestingAction(HarvestableObject h){
+        if(h.objectType == 0){
+            if(h.currentlyBeingHarvested || h.markedForHarvest){
                 if(Input.GetKey(KeyCode.LeftShift)){
-                    t.occupyingObject.associatedJob.RemoveJob();
+                    h.associatedJob.RemoveJob();
                 }
             }
-            if(!t.occupyingObject.currentlyBeingHarvested){
+            if(!h.currentlyBeingHarvested){
                 if(!Input.GetKey(KeyCode.LeftShift)){
-                    t.occupyingObject.markedForHarvest = true;
+                    h.markedForHarvest = true;
                 }
             }
         }
     }
 
-    void MiningAction(Tile t){
-        if(t.occupyingObject.objectType == 1){
-            if(t.occupyingObject.currentlyBeingHarvested || t.occupyingObject.markedForHarvest){
+    void MiningAction(HarvestableObject h){
+        if(h.objectType == 1){
+            if(h.currentlyBeingHarvested || h.markedForHarvest){
                 if(Input.GetKey(KeyCode.LeftShift)){
-                    t.occupyingObject.associatedJob.RemoveJob();
+                    h.associatedJob.RemoveJob();
                 }
             }
-            if(!t.occupyingObject.currentlyBeingHarvested){
+            if(!h.currentlyBeingHarvested){
                 if(!Input.GetKey(KeyCode.LeftShift)){
-                    t.occupyingObject.markedForHarvest = true;
+                    h.markedForHarvest = true;
                 }
             }
         }
