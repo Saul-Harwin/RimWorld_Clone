@@ -98,6 +98,9 @@ public class HarvestObjectJob : Job{
             } 
             await Task.Yield();
         }
+        // Drop Harvested Object
+        Object.CreateNewObject(obj.droppedObject, obj.position, obj.occupyingTile, ObjectClass.HAULABLE);
+
         // Delete Object
         GameManager.Instance.world.objects.Remove(obj);
         GameObject.Destroy(obj.go);
@@ -109,8 +112,6 @@ public class HarvestObjectJob : Job{
         // Free Unit From Job
         assignedUnit.currentJob = null;
         assignedUnit.state = UnitState.IDLE;
-        if(obj.objectType == 0) { GameManager.Instance.resourceManager.woodAmount += 10; }
-        else if(obj.objectType == 1) { GameManager.Instance.resourceManager.stoneAmount += 10; }
     }
 
     public override void RemoveJob()
