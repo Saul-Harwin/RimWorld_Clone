@@ -5,19 +5,25 @@ using UnityEngine;
 public class ObjectGO : MonoBehaviour
 {
     public Object parent;
-    [SerializeField] GameObject harvestMark;
+}
 
-    void OnMouseDown(){
-        // parent.markedForHarvest = true;
+public class HarvestableObjectGO : ObjectGO {
+    [SerializeField] SpriteRenderer harvestMark;
+    void Start(){
+        harvestMark = GetComponentsInChildren<SpriteRenderer>()[1];
     }
-
     void Update(){
         if(parent.markedForHarvest || parent.currentlyBeingHarvested){
-            harvestMark.gameObject.SetActive(true);
+            //harvestMark.gameObject.SetActive(true);
+            harvestMark.enabled = true;
         }
         else{
-            harvestMark.gameObject.SetActive(false);
+            //harvestMark.gameObject.SetActive(false);
+            harvestMark.enabled = false;
         }
     }
+}
+
+public class HaulableObjectGO : ObjectGO {
 
 }
