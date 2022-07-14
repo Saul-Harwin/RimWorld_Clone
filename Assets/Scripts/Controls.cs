@@ -175,7 +175,7 @@ public class Controls : MonoBehaviour
                 newStockpile.Initialize();
                 for (int i = 0; i < selectedTiles.Count; i++)
                 {
-                    newStockpile.tiles.Add(selectedTiles[i]);
+                    newStockpile.tiles.Add(new TileHighlight(selectedTiles[i]));
                 }
                 newStockpile.CreateOverlayImages();
             }
@@ -184,8 +184,10 @@ public class Controls : MonoBehaviour
                 {
                     for (int j = 0; j < selectedTiles.Count; j++)
                     {
-                        if(GameManager.Instance.world.stockpiles[i].tiles.Contains(selectedTiles[j])){
-                            GameManager.Instance.world.stockpiles[i].tiles.Remove(selectedTiles[j]);
+                        if(Stockpile.TileExistsInStockPile(selectedTiles[j])){
+                            GameObject.Destroy(Stockpile.returnHighlightFromTile(selectedTiles[j]).highlight);
+                            Stockpile.returnHighlightFromTile(selectedTiles[j]).highlight = null;
+                            GameManager.Instance.world.stockpiles[i].tiles.Remove(Stockpile.returnHighlightFromTile(selectedTiles[j]));
                             if(selectedTiles[j].occupyingObject is HaulableObject){
                                 (selectedTiles[j].occupyingObject as HaulableObject).markedForHauling = true;
                             }
