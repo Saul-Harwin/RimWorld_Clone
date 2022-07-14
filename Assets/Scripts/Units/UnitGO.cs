@@ -62,7 +62,7 @@ public class UnitGO : MonoBehaviour
                     parent.state = UnitState.IDLE;
                     target = parent.occupyingTile.position;
                     currentlyPathing = false;
-                    return; // Maybe search for nearby tiles in future?
+                    return;
                 } 
                 parent.occupyingTile.occupyingUnit = null;
                 parent.occupyingTile = path[i];

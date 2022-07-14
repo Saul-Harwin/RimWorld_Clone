@@ -40,7 +40,7 @@ public class Pathfinding
         return path;
     }
 
-    List<Tile> GetNeighbourList(Tile tile){
+    public List<Tile> GetNeighbourList(Tile tile){
         List<Tile> neighbourList = new List<Tile>();
         World world = GameManager.Instance.world;
 
@@ -129,7 +129,6 @@ public class Pathfinding
                         end.position
                     );
                     neighbourTile.pathFindingData.CalculateFCost();
-                    if(currentTile.pathFindingData.fCost > 2000) return null;   // BAD METHOD NEED TO BE CHANGED I THINK
                     if(!openList.Contains(neighbourTile)){
                         openList.Add(neighbourTile);
                     }

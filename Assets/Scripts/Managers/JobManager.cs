@@ -32,10 +32,10 @@ public class JobManager : MonoBehaviour
 
         // Hauling
             foreach(HaulableObject ho in GameManager.Instance.world.objects.OfType<HaulableObject>()){
-                if(ho.markedForHauling && !ho.currentlyBeingHauled){
-                    jobs.Add(new HaulObjectJob(ho));
-                    ho.markedForHauling = false;
-                    ho.currentlyBeingHauled = true;
+                if(Stockpile.freeSpaces() != 0){
+                    if(ho.markedForHauling && !ho.currentlyBeingHauled){
+                        jobs.Add(new HaulObjectJob(ho));
+                    }
                 }
             }
         }
@@ -150,6 +150,8 @@ public class HaulObjectJob : Job{
             obj.currentlyBeingHauled = false;
             assignedUnit.FreeUnitFromJob();
         }
+        obj.markedForHauling = false;
+        obj.currentlyBeingHauled = true;
         beingExecuted = true;
         obj.associatedJob = this;
         assignedUnit.state = UnitState.HAULING;
@@ -161,37 +163,77 @@ public class HaulObjectJob : Job{
                 assignedUnit.state = UnitState.IDLE;
                 assignedUnit.go.GetComponent<UnitGO>().cancelPathing = true;
                 obj.currentlyBeingHauled = false;
+                obj.markedForHauling = true;
+                HaulableObject.CreateNewObject(assignedUnit.haulingObject, assignedUnit.position, assignedUnit.occupyingTile);
+                assignedUnit.haulingObject = null;
                 cancelled = false;
                 return;
             } 
             await Task.Yield();
         }
+        // Pick up Floor Object
+        if(obj == null){
+            assignedUnit.currentJob = null;
+            assignedUnit.state = UnitState.IDLE;
+            assignedUnit.go.GetComponent<UnitGO>().cancelPathing = true;
+            assignedUnit.haulingObject = null;
+            return;
+        }
         assignedUnit.haulingObject = ScriptableObject.Instantiate(obj);
-        // Delete Object
+
+        // Delete Floor Object
         GameManager.Instance.world.objects.Remove(obj);
         GameObject.Destroy(obj.go);
         GameObject.Destroy(obj);
-        Tile tempHaulTile = GameManager.Instance.world.tiles[50,50];
-        assignedUnit.go.GetComponent<UnitGO>().PathToTile(tempHaulTile);
-        while(assignedUnit.occupyingTile != tempHaulTile){
-            if(cancelled){
-                HaulableObject.CreateNewObject(assignedUnit.haulingObject, assignedUnit.position, assignedUnit.occupyingTile);
-                assignedUnit.haulingObject = null;
-                assignedUnit.currentJob = null;
-                assignedUnit.state = UnitState.IDLE;
-                return;
+
+        Tile HaulToTile = null;
+        // Haul To Free Space
+        bool standingOnEmptyStockpileTile = false;
+        while(!standingOnEmptyStockpileTile){
+            HaulToTile = Stockpile.findFreeSpace();
+            assignedUnit.go.GetComponent<UnitGO>().PathToTile(HaulToTile);
+            if(HaulToTile == null) cancelled = true;
+            while(assignedUnit.occupyingTile != HaulToTile){
+                if(cancelled){
+                    obj.associatedJob = null;
+                    assignedUnit.currentJob = null;
+                    assignedUnit.state = UnitState.IDLE;
+                    assignedUnit.go.GetComponent<UnitGO>().cancelPathing = true;
+                    if(assignedUnit.occupyingTile.occupyingObject != null){
+                        Tile nearbyEmptyTile = World.findNearbyEmptyTile(assignedUnit.occupyingTile);
+                        assignedUnit.go.GetComponent<UnitGO>().PathToTile(World.findNearbyEmptyTile(nearbyEmptyTile));
+                        while(assignedUnit.occupyingTile != nearbyEmptyTile){
+                            await Task.Yield();
+                        }
+                    }
+                    obj.currentlyBeingHauled = false;
+                    obj.markedForHauling = true;
+                    HaulableObject.CreateNewObject(assignedUnit.haulingObject, assignedUnit.position, assignedUnit.occupyingTile);
+                    assignedUnit.haulingObject = null;
+                    cancelled = false;
+                    return;
+                } 
+                if(Stockpile.freeSpaces() == 0) cancelled = true;
+                await Task.Yield();
             }
-           await Task.Yield(); 
+            if(assignedUnit.occupyingTile.occupyingObject == null){
+                standingOnEmptyStockpileTile = true;
+            }
         }
-        HaulableObject.CreateNewObject(assignedUnit.haulingObject, assignedUnit.position, assignedUnit.occupyingTile);
+
+        HaulableObject.CreateNewObject(assignedUnit.haulingObject, HaulToTile.position, assignedUnit.occupyingTile);
         assignedUnit.haulingObject = null;
 
         // Remove Job
         GameManager.Instance.jobManager.jobs.Remove(this);
-
-        // Free Unit From Job
+        obj.associatedJob = null;
         assignedUnit.currentJob = null;
         assignedUnit.state = UnitState.IDLE;
+        assignedUnit.go.GetComponent<UnitGO>().cancelPathing = true;
+        assignedUnit.haulingObject = null;
+        cancelled = false;
+        obj.currentlyBeingHauled = false;
+        return;
     }
 
     public override void RemoveJob()

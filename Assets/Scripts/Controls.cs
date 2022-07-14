@@ -112,21 +112,30 @@ public class Controls : MonoBehaviour
 
     void SelectedTilesAction(){
         List<Tile> cachedSelectedTiles = selectedTiles;
-        for (int i = 0; i < cachedSelectedTiles.Count; i++)
-        {
-            if(cachedSelectedTiles[i].occupyingObject != null){
-                switch(playerState){
-                    case PlayerState.FORESTING: 
-                        var fobj = cachedSelectedTiles[i].occupyingObject as HarvestableObject;
-                        if(fobj != null) ForestingAction(cachedSelectedTiles[i].occupyingObject as HarvestableObject);
-                        break;
-                    case PlayerState.MINING:
-                        var mobj = cachedSelectedTiles[i].occupyingObject as HarvestableObject;
-                        if(mobj != null) MiningAction(cachedSelectedTiles[i].occupyingObject as HarvestableObject);
-                        break;
+
+        // Harvesting
+        //-------------------
+        if(playerState == PlayerState.FORESTING || playerState == PlayerState.MINING){
+            for (int i = 0; i < cachedSelectedTiles.Count; i++)
+            {
+                if(cachedSelectedTiles[i].occupyingObject != null){
+                    switch(playerState){
+                        case PlayerState.FORESTING: 
+                            var fobj = cachedSelectedTiles[i].occupyingObject as HarvestableObject;
+                            if(fobj != null) ForestingAction(cachedSelectedTiles[i].occupyingObject as HarvestableObject);
+                            break;
+                        case PlayerState.MINING:
+                            var mobj = cachedSelectedTiles[i].occupyingObject as HarvestableObject;
+                            if(mobj != null) MiningAction(cachedSelectedTiles[i].occupyingObject as HarvestableObject);
+                            break;
+                    }
                 }
             }
         }
+
+        // Stockpile
+        //--------------- 
+        StockPileAction();
     }
 
     void ForestingAction(HarvestableObject h){
@@ -158,6 +167,34 @@ public class Controls : MonoBehaviour
             }
         }
     }
+    
+    void StockPileAction(){
+        if(playerState == PlayerState.CREATINGSTOCKPILE){
+            if(!Input.GetKey(KeyCode.LeftShift)){
+                Stockpile newStockpile = new Stockpile();
+                newStockpile.Initialize();
+                for (int i = 0; i < selectedTiles.Count; i++)
+                {
+                    newStockpile.tiles.Add(selectedTiles[i]);
+                }
+                newStockpile.CreateOverlayImages();
+            }
+            else if(Input.GetKey(KeyCode.LeftShift)){
+                for (int i = 0; i < GameManager.Instance.world.stockpiles.Count; i++)
+                {
+                    for (int j = 0; j < selectedTiles.Count; j++)
+                    {
+                        if(GameManager.Instance.world.stockpiles[i].tiles.Contains(selectedTiles[j])){
+                            GameManager.Instance.world.stockpiles[i].tiles.Remove(selectedTiles[j]);
+                            if(selectedTiles[j].occupyingObject is HaulableObject){
+                                (selectedTiles[j].occupyingObject as HaulableObject).markedForHauling = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 
 void TransformSelectionBox(){
     selectionBox.SetActive(dragSelect);
@@ -177,6 +214,7 @@ void TransformSelectionBox(){
     public void ChangeToViewingState(){ playerState = PlayerState.VIEWING; }
     public void ChangeToForestingState(){ playerState = PlayerState.FORESTING; }
     public void ChangeToMiningState(){ playerState = PlayerState.MINING; }
+    public void ChangeToCreatingStockpileState(){ playerState = PlayerState.CREATINGSTOCKPILE; }
 
 }
 
@@ -184,4 +222,5 @@ public enum PlayerState {
     VIEWING,
     FORESTING,
     MINING,
+    CREATINGSTOCKPILE,
 }
