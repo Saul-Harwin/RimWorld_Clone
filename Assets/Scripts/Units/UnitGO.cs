@@ -51,7 +51,7 @@ public class UnitGO : MonoBehaviour
         for (int i = 0; i < path.Count; i++)
         {
             target = path[i].go.transform.position;
-            while ((Vector2)go.transform.position != target) {
+            while ((Vector2)go.transform.position != target){
                 if(cancelPathing){
                     cancelPathing = false;
                     parent.occupyingTile.occupyingUnit = null;
@@ -62,7 +62,7 @@ public class UnitGO : MonoBehaviour
                     parent.state = UnitState.IDLE;
                     target = parent.occupyingTile.position;
                     currentlyPathing = false;
-                    return; // Maybe search for nearby tiles in future?
+                    return;
                 } 
                 parent.occupyingTile.occupyingUnit = null;
                 parent.occupyingTile = path[i];

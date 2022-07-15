@@ -32,10 +32,12 @@ public class JobManager : MonoBehaviour
 
         // Hauling
             foreach(HaulableObject ho in GameManager.Instance.world.objects.OfType<HaulableObject>()){
-                if(ho.markedForHauling && !ho.currentlyBeingHauled){
-                    jobs.Add(new HaulObjectJob(ho));
-                    ho.markedForHauling = false;
-                    ho.currentlyBeingHauled = true;
+                if(Stockpile.freeSpaces() != 0){
+                    if(ho.markedForHauling && !ho.currentlyBeingHauled){
+                        jobs.Add(new HaulObjectJob(ho));
+                        ho.markedForHauling = false;
+                        ho.currentlyBeingHauled = true;
+                    }
                 }
             }
         }
@@ -71,9 +73,8 @@ abstract public class Job {
     public JobType type;
     public Unit assignedUnit;
     public bool beingExecuted;
-    public bool cancelled = false;
     public abstract void Execute();
-    public abstract void RemoveJob();
+    public abstract void CancelJob();
 }
 
 [System.Serializable]
@@ -97,20 +98,11 @@ public class HarvestObjectJob : Job{
         assignedUnit.state = UnitState.HARVESTING;
         assignedUnit.go.GetComponent<UnitGO>().PathToTile(obj.occupyingTile);
         while(assignedUnit.occupyingTile != obj.occupyingTile){
-            if(cancelled){
-                obj.currentlyBeingHarvested = false;
-                obj.associatedJob = null;
-                assignedUnit.currentJob = null;
-                assignedUnit.state = UnitState.IDLE;
-                assignedUnit.go.GetComponent<UnitGO>().cancelPathing = true;
-                obj.currentlyBeingHarvested = false;
-                cancelled = false;
-                return;
-            } 
             await Task.Yield();
         }
         // Drop Harvested Object
-        HaulableObject.CreateNewObject(obj.droppedObject, obj.position, obj.occupyingTile);
+        HaulableObject droppedObject = HaulableObject.CreateNewObject(obj.droppedObject, obj.occupyingTile);
+        droppedObject.markedForHauling = true;
 
         // Delete Object
         GameManager.Instance.world.objects.Remove(obj);
@@ -125,12 +117,16 @@ public class HarvestObjectJob : Job{
         assignedUnit.state = UnitState.IDLE;
     }
 
-    public override void RemoveJob()
+    public override void CancelJob()
     {
-        // Remove Job
-        GameManager.Instance.jobManager.jobs.Remove(this);
-        cancelled = true;
+        if(assignedUnit != null){
+            assignedUnit.currentJob = null;
+            assignedUnit.state = UnitState.IDLE;
+            assignedUnit.go.GetComponent<UnitGO>().cancelPathing = true;
+        }
         obj.currentlyBeingHarvested = false;
+        obj.associatedJob = null;
+        GameManager.Instance.jobManager.jobs.Remove(this);
     }
 }
 
@@ -151,56 +147,92 @@ public class HaulObjectJob : Job{
             assignedUnit.FreeUnitFromJob();
         }
         beingExecuted = true;
-        obj.associatedJob = this;
-        assignedUnit.state = UnitState.HAULING;
+        StockpileTile reservedTile = Stockpile.findFreeSpace();
+        if(reservedTile == null){
+            return;
+        }
+        reservedTile.reserved = true;
+
+        // Path to ground objects tile
+        // and wait for the unit to reach
+        // -------------------------------
         assignedUnit.go.GetComponent<UnitGO>().PathToTile(obj.occupyingTile);
         while(assignedUnit.occupyingTile != obj.occupyingTile){
-            if(cancelled){
-                obj.associatedJob = null;
-                assignedUnit.currentJob = null;
-                assignedUnit.state = UnitState.IDLE;
-                assignedUnit.go.GetComponent<UnitGO>().cancelPathing = true;
-                obj.currentlyBeingHauled = false;
-                cancelled = false;
-                return;
-            } 
             await Task.Yield();
         }
+
+        // Pickup Object From Floor:
+        // Create a copy in Unit
+        // Delete object from world
+        // -------------------------------
         assignedUnit.haulingObject = ScriptableObject.Instantiate(obj);
-        // Delete Object
-        GameManager.Instance.world.objects.Remove(obj);
+
         GameObject.Destroy(obj.go);
-        GameObject.Destroy(obj);
-        Tile tempHaulTile = GameManager.Instance.world.tiles[50,50];
-        assignedUnit.go.GetComponent<UnitGO>().PathToTile(tempHaulTile);
-        while(assignedUnit.occupyingTile != tempHaulTile){
-            if(cancelled){
-                HaulableObject.CreateNewObject(assignedUnit.haulingObject, assignedUnit.position, assignedUnit.occupyingTile);
-                assignedUnit.haulingObject = null;
-                assignedUnit.currentJob = null;
-                assignedUnit.state = UnitState.IDLE;
-                return;
-            }
-           await Task.Yield(); 
+        obj = null;
+
+        // Path to reserved StockpileTile
+        // Wait For Unit To Reach reserved
+        // StockpileTile
+        // -------------------------------
+        assignedUnit.go.GetComponent<UnitGO>().PathToTile(reservedTile.tile);
+        while(assignedUnit.occupyingTile != reservedTile.tile){
+            await Task.Yield();
         }
-        HaulableObject.CreateNewObject(assignedUnit.haulingObject, assignedUnit.position, assignedUnit.occupyingTile);
+
+        // Drop Object Held By Unit:
+        // Create a copy on reservedTile
+        // Set haulingObject to null
+        // -------------------------------
+        obj = HaulableObject.CreateNewObject(ScriptableObject.Instantiate(assignedUnit.haulingObject), assignedUnit.occupyingTile);
         assignedUnit.haulingObject = null;
 
-        // Remove Job
-        GameManager.Instance.jobManager.jobs.Remove(this);
+        // Reserved Tile
+        reservedTile.reserved = false;
 
-        // Free Unit From Job
+        // Unit
         assignedUnit.currentJob = null;
         assignedUnit.state = UnitState.IDLE;
+
+        // Object
+        obj.stockpile = reservedTile.stockpile;
+        obj.markedForHauling = false;
+        obj.currentlyBeingHauled = false;
+        obj.associatedJob = null;
     }
 
-    public override void RemoveJob()
-    {
-        // Remove Job
+    public override void CancelJob(){
+        // Unit
+        if(assignedUnit != null){
+            assignedUnit.currentJob = null;
+            assignedUnit.state = UnitState.IDLE;
+            assignedUnit.go.GetComponent<UnitGO>().cancelPathing = true;
+        }
+
+        // Hauling Object
+        if(assignedUnit.haulingObject != null){
+            HaulableObject newObj;
+            if(assignedUnit.occupyingTile.occupyingObject == null){
+                newObj = HaulableObject.CreateNewObject(assignedUnit.haulingObject, assignedUnit.occupyingTile);
+            }
+            else{
+                newObj = HaulableObject.CreateNewObject(assignedUnit.haulingObject, World.findNearbyEmptyTile(assignedUnit.occupyingTile));
+            }
+            newObj.markedForHauling = true;
+            newObj.currentlyBeingHauled = false;
+            obj.associatedJob = null;
+        }
+
+        // Object
+        if (obj != null){
+            obj.markedForHauling = true;
+            obj.currentlyBeingHauled = false;
+            obj.associatedJob = null;
+        }
+
+        // Job
         GameManager.Instance.jobManager.jobs.Remove(this);
-        cancelled = true;
-        obj.currentlyBeingHauled = false;
     }
+    
 }
 
 public enum JobType {

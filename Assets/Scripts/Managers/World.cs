@@ -22,6 +22,8 @@ public class World : MonoBehaviour {
     public float[,] heightMap;
     public float[,] moistureMap;
     public float[,] temperatureMap;
+    public List<Stockpile> stockpiles;
+    public GameObject stockpileHighlightGameObject;
 
     public void GenerateWorld() {
         rivers = GameManager.Instance.world.GetComponent<Rivers>();
@@ -74,6 +76,31 @@ public class World : MonoBehaviour {
             return GameManager.Instance.world.tiles[Mathf.RoundToInt(mouseWorldPosition.x), Mathf.RoundToInt(mouseWorldPosition.y)];
         }
         return null;
+    }
+
+    public static Tile findNearbyWalkableTile(Tile tile){
+        List<Tile> neighbours = GameManager.Instance.pathfinder.GetNeighbourList(tile);
+        while(true){
+            for (int i = neighbours.Count - 1; i >= 0; i--)
+            {
+                if(neighbours[i].tileData.walkable){
+                    return neighbours[i];
+                }
+                neighbours.Add(neighbours[i]);
+            }
+        }
+    }
+    public static Tile findNearbyEmptyTile(Tile tile){
+        List<Tile> neighbours = GameManager.Instance.pathfinder.GetNeighbourList(tile);
+        while(true){
+            for (int i = neighbours.Count - 1; i >= 0; i--)
+            {
+                if(neighbours[i].occupyingObject == null && neighbours[i].tileData.walkable){
+                    return neighbours[i];
+                }
+                neighbours.Add(neighbours[i]);
+            }
+        }
     }
 
 }

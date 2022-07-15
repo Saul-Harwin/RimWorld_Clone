@@ -7,8 +7,8 @@ public class HarvestableObject : Object {
     public bool markedForHarvest;
     public bool currentlyBeingHarvested;
     public HaulableObject droppedObject;
-    public override void Initialize(Vector2Int pos, Tile pOccupyingTile){
-        position = pos;
+    public override void Initialize(Tile pOccupyingTile){
+        position = pOccupyingTile.position;
         occupyingTile = pOccupyingTile;
         occupyingTile.occupyingObject = this;
         if(objectType == 0){ // If tree, place at an offset of .6f
@@ -25,6 +25,6 @@ public class HarvestableObject : Object {
 
     public static void CreateNewObject(HarvestableObject objectToInstantiate, Vector2Int pos, Tile pOccupyingTile){
         HarvestableObject newObj = ScriptableObject.Instantiate(objectToInstantiate);
-        newObj.Initialize(pos, pOccupyingTile);
+        newObj.Initialize(pOccupyingTile);
     }
 }
