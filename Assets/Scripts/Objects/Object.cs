@@ -11,5 +11,5 @@ public abstract class Object : ScriptableObject {
     public Tile occupyingTile;
     public Sprite[] sprites;
     public Job associatedJob;
-    public abstract void Initialize(Vector2Int pos, Tile pOccupyingTile);
+    public abstract void Initialize(Tile pOccupyingTile);
 }

@@ -98,9 +98,9 @@ public class Controls : MonoBehaviour
                 if(upperBound.x > GameManager.Instance.world.width) upperBound.x = GameManager.Instance.world.width;
                 if(upperBound.y > GameManager.Instance.world.height) upperBound.y = GameManager.Instance.world.height;
 
-                for (int x = Mathf.RoundToInt(lowerBound.x); x < Mathf.RoundToInt(upperBound.x); x++)
+                for (int x = Mathf.RoundToInt(lowerBound.x); x <= Mathf.RoundToInt(upperBound.x); x++)
                 {
-                    for (int y = Mathf.RoundToInt(lowerBound.y); y < Mathf.RoundToInt(upperBound.y); y++){
+                    for (int y = Mathf.RoundToInt(lowerBound.y); y <= Mathf.RoundToInt(upperBound.y); y++){
                         selectedTiles.Add(GameManager.Instance.world.tiles[x, y]);
                     }
                 }
@@ -142,7 +142,7 @@ public class Controls : MonoBehaviour
         if(h.objectType == 0){
             if(h.currentlyBeingHarvested || h.markedForHarvest){
                 if(Input.GetKey(KeyCode.LeftShift)){
-                    h.associatedJob.RemoveJob();
+                    h.associatedJob.CancelJob();
                 }
             }
             if(!h.currentlyBeingHarvested){
@@ -157,7 +157,7 @@ public class Controls : MonoBehaviour
         if(h.objectType == 1){
             if(h.currentlyBeingHarvested || h.markedForHarvest){
                 if(Input.GetKey(KeyCode.LeftShift)){
-                    h.associatedJob.RemoveJob();
+                    h.associatedJob.CancelJob();
                 }
             }
             if(!h.currentlyBeingHarvested){
@@ -175,7 +175,7 @@ public class Controls : MonoBehaviour
                 newStockpile.Initialize();
                 for (int i = 0; i < selectedTiles.Count; i++)
                 {
-                    newStockpile.tiles.Add(new TileHighlight(selectedTiles[i]));
+                    newStockpile.tiles.Add(new StockpileTile(selectedTiles[i], newStockpile));
                 }
                 newStockpile.CreateOverlayImages();
             }
@@ -185,9 +185,9 @@ public class Controls : MonoBehaviour
                     for (int j = 0; j < selectedTiles.Count; j++)
                     {
                         if(Stockpile.TileExistsInStockPile(selectedTiles[j])){
-                            GameObject.Destroy(Stockpile.returnHighlightFromTile(selectedTiles[j]).highlight);
-                            Stockpile.returnHighlightFromTile(selectedTiles[j]).highlight = null;
-                            GameManager.Instance.world.stockpiles[i].tiles.Remove(Stockpile.returnHighlightFromTile(selectedTiles[j]));
+                            GameObject.Destroy(Stockpile.returnStockpileTile(selectedTiles[j]).highlight);
+                            Stockpile.returnStockpileTile(selectedTiles[j]).highlight = null;
+                            GameManager.Instance.world.stockpiles[i].tiles.Remove(Stockpile.returnStockpileTile(selectedTiles[j]));
                             if(selectedTiles[j].occupyingObject is HaulableObject){
                                 (selectedTiles[j].occupyingObject as HaulableObject).markedForHauling = true;
                             }

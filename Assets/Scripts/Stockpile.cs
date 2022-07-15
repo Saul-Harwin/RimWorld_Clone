@@ -5,10 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class Stockpile 
 {
-    public List<TileHighlight> tiles;
+    public List<StockpileTile> tiles;
     
     public void Initialize(){
-        tiles = new List<TileHighlight>();
+        tiles = new List<StockpileTile>();
     }
 
     public void CreateOverlayImages(){
@@ -28,13 +28,13 @@ public class Stockpile
         GameManager.Instance.world.stockpiles.Add(this);
     }
 
-    public static Tile findFreeSpace(){
+    public static StockpileTile findFreeSpace(){
         for (int i = 0; i < GameManager.Instance.world.stockpiles.Count; i++)
         {
             for (int j = 0; j < GameManager.Instance.world.stockpiles[i].tiles.Count; j++)
             {
-                if(GameManager.Instance.world.stockpiles[i].tiles[j].tile.occupyingObject == null){
-                    return GameManager.Instance.world.stockpiles[i].tiles[j].tile;
+                if(GameManager.Instance.world.stockpiles[i].tiles[j].tile.occupyingObject == null && !GameManager.Instance.world.stockpiles[i].tiles[j].reserved){
+                    return GameManager.Instance.world.stockpiles[i].tiles[j];
                 } 
             }
         }
@@ -54,7 +54,7 @@ public class Stockpile
         return false;
     }
 
-    public static TileHighlight returnHighlightFromTile(Tile tile){
+    public static StockpileTile returnStockpileTile(Tile tile){
         for (int i = 0; i < GameManager.Instance.world.stockpiles.Count; i++)
         {
             for (int j = 0; j < GameManager.Instance.world.stockpiles[i].tiles.Count; j++)
@@ -81,10 +81,13 @@ public class Stockpile
     }
 }
 
-public class TileHighlight {
+public class StockpileTile {
     public Tile tile;
+    public Stockpile stockpile;
     public GameObject highlight;
-    public TileHighlight(Tile pTile){
+    public bool reserved;
+    public StockpileTile(Tile pTile, Stockpile pStockpile){
         tile = pTile;
+        stockpile = pStockpile;
     }
 }
