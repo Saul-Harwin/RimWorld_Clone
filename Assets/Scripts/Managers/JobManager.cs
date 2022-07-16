@@ -133,6 +133,7 @@ public class HarvestObjectJob : Job{
 [System.Serializable]
 public class HaulObjectJob : Job{
     public HaulableObject obj;
+    public StockpileTile reservedTile;
     public HaulObjectJob(HaulableObject objectToHaul){
         type = JobType.HAUL;
         obj = objectToHaul;
@@ -147,7 +148,7 @@ public class HaulObjectJob : Job{
             assignedUnit.FreeUnitFromJob();
         }
         beingExecuted = true;
-        StockpileTile reservedTile = Stockpile.findFreeSpace();
+        reservedTile = Stockpile.findFreeSpace();
         if(reservedTile == null){
             return;
         }
@@ -163,10 +164,12 @@ public class HaulObjectJob : Job{
 
         // Pickup Object From Floor:
         // Create a copy in Unit
+        // Set Tiles occupyingObject
+        // to null
         // Delete object from world
         // -------------------------------
         assignedUnit.haulingObject = ScriptableObject.Instantiate(obj);
-
+        obj.occupyingTile.occupyingObject = null;
         GameObject.Destroy(obj.go);
         obj = null;
 
@@ -227,6 +230,11 @@ public class HaulObjectJob : Job{
             obj.markedForHauling = true;
             obj.currentlyBeingHauled = false;
             obj.associatedJob = null;
+        }
+
+        // Reserved Tile
+        if (reservedTile != null){
+            reservedTile.reserved = false;
         }
 
         // Job

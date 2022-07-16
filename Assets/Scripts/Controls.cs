@@ -95,8 +95,8 @@ public class Controls : MonoBehaviour
 
                 if(lowerBound.x < 0) lowerBound.x = 0;
                 if(lowerBound.y < 0) lowerBound.y = 0;
-                if(upperBound.x > GameManager.Instance.world.width) upperBound.x = GameManager.Instance.world.width;
-                if(upperBound.y > GameManager.Instance.world.height) upperBound.y = GameManager.Instance.world.height;
+                if(upperBound.x > GameManager.Instance.world.width) upperBound.x = GameManager.Instance.world.width - 1;
+                if(upperBound.y > GameManager.Instance.world.height) upperBound.y = GameManager.Instance.world.height - 1;
 
                 for (int x = Mathf.RoundToInt(lowerBound.x); x <= Mathf.RoundToInt(upperBound.x); x++)
                 {
